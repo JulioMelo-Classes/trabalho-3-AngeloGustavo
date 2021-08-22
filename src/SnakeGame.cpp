@@ -1,14 +1,20 @@
 #include "SnakeGame.h"
+#include "Snake.h"
 
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <vector>
 
 #include <chrono> //por causa do sleep
 #include <thread> //por causa do sleep
 
 using namespace std;
 
+vector<char> dire = {'V','<','A','>'};
+
 SnakeGame::SnakeGame(){
+    jogador.setDir(0);
     choice = "";
     frameCount = 0;
     initialize_game();
@@ -27,6 +33,15 @@ void SnakeGame::initialize_game(){
             lineCount++;
         }
     }
+    for(int i=0; i<maze.size(); i++)
+        for(int j=0; j<maze[i].size(); j++)
+            if(maze[i][j] == '*'){
+                maze[i][j] = ' ';
+                cobra.setPos(i,j);
+                jogador.setPos(i,j);
+            }
+
+    jogador.find_solution(maze);
     state = RUNNING;
 }
 
@@ -53,6 +68,7 @@ void SnakeGame::update(){
         case RUNNING:
             if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
                 state = WAITING_USER;
+            if(frameCount>0) cobra.Move(jogador.next_move());
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
@@ -97,8 +113,12 @@ void SnakeGame::render(){
     switch(state){
         case RUNNING:
             //desenha todas as linhas do labirinto
-            for(auto line : maze){
-                cout<<line<<endl;
+            for(int i=0; i<maze.size(); i++){
+                for(int j=0; j<maze[i].size(); j++){
+                    if(i==cobra.linha and j==cobra.coluna) cout<<dire[cobra.direcao];
+                    else cout<<maze[i][j];
+                }
+                cout<<endl;
             }
             break;
         case WAITING_USER:
