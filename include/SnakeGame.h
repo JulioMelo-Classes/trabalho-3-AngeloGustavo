@@ -2,6 +2,8 @@
 #define SnakeGame_h
 #include <iostream>
 #include <vector>
+#include "Snake.h"
+#include "Player.h"
 
 
 class SnakeGame{
@@ -16,6 +18,8 @@ class SnakeGame{
         };
 
     private:
+        Snake cobra;
+        Player jogador;
         //<! atributos adicione outros se quiser
         std::vector<std::string> maze; //<! vector contendo o labirinto atual, pode ser interpretado como uma matriz
         int frameCount; //<! contador de frames, usado apenas como exemplo
