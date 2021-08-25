@@ -17,10 +17,13 @@ class Level{
         void nextFood();
         Pos getPosComida();
         vector<string> getMapa();
+        int getComidaTotal();
+        int getJaComidas();
     private:
         int linhas;
         int colunas;
-        int comidas;
+        int comidaTot;
+        int comidaRes;
         Pos inicio;
         Pos comida;
         vector<string> mapa;
