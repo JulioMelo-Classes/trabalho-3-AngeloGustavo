@@ -6,111 +6,157 @@
 
 using namespace std;
 
-Posicao Player::setFrente(int l, int c, int dir){
-    Posicao saida;
-    switch(dir){
-        case 0:
-            saida.linha = l-1;
-            saida.coluna = c;
-            break;
-        case 1:
-            saida.linha = l;
-            saida.coluna = c+1;
-            break;
-        case 2:
-            saida.linha = l+1;
-            saida.coluna = c;
-            break;
-        default:
-            saida.linha = l;
-            saida.coluna = c-1;
-    }
-    return saida;
-}
-Posicao Player::setEsquerda(int l, int c, int dir){
-    Posicao saida;
-    switch(dir){
-        case 0:
-            saida.linha = l;
-            saida.coluna = c-1;
-            break;
-        case 1:
-            saida.linha = l-1;
-            saida.coluna = c;
-            break;
-        case 2:
-            saida.linha = l;
-            saida.coluna = c+1;
-            break;
-        default:
-            saida.linha = l+1;
-            saida.coluna = c;
-    }
-    return saida;    
-}
-Posicao Player::setDireita(int l, int c, int dir){
-    Posicao saida;
-    switch(dir){
-        case 0:
-            saida.linha = l;
-            saida.coluna = c+1;
-            break;
-        case 1:
-            saida.linha = l+1;
-            saida.coluna = c;
-            break;
-        case 2:
-            saida.linha = l;
-            saida.coluna = c-1;
-            break;
-        default:
-            saida.linha = l-1;
-            saida.coluna = c;
-    }
-    return saida;   
-}
-void Player::setPos(int l, int c){
-    atual.linha = l;
-    atual.coluna = c;
-}
-void Player::setDir(int dir){
-    direcao = dir;
-}
 Player::Player(){
-    movimento=0;
+    //movimento=0;
 }
-bool Player::find_solution(vector<string> mapa){
-    Posicao frente,esquerda,direita;    
-    for(int i=0; i<9; i++){
-        frente = setFrente(atual.linha,atual.coluna,direcao);
-        direita = setDireita(atual.linha,atual.coluna,direcao);
-        esquerda = setEsquerda(atual.linha,atual.coluna,direcao);
-        
-        if(mapa[frente.linha][frente.coluna] == ' '){
-            solucao.push_back(0);
-        }
-        else if(mapa[esquerda.linha][esquerda.coluna] == ' '){
-            solucao.push_back(1);
-            direcao--;
-            if(direcao<0)
-                direcao=3;
-        }
-        else if(mapa[direita.linha][direita.coluna] == ' '){
-            solucao.push_back(2);
-            direcao++;
-            if(direcao>3)
-                direcao=0;
-        }
-        else
-            return false;
-
-        atual = setFrente(atual.linha, atual.coluna, direcao);        
+Posicao Player::setFrente(Posicao _atual, int dir){
+    Posicao aux;
+    switch(dir){
+        case 0:
+            aux.linha = _atual.linha-1;
+            aux.coluna = _atual.coluna;
+            break;
+        case 1:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna+1;
+            break;
+        case 2:
+            aux.linha = _atual.linha+1;
+            aux.coluna = _atual.coluna;
+            break;
+        default:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna-1;
     }
+    return aux;
+}
+Posicao Player::setEsquerda(Posicao _atual, int dir){
+    Posicao aux;
+    switch(dir){
+        case 0:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna-1;
+            break;
+        case 1:
+            aux.linha = _atual.linha-1;
+            aux.coluna = _atual.coluna;
+            break;
+        case 2:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna+1;
+            break;
+        default:
+            aux.linha = _atual.linha+1;
+            aux.coluna = _atual.coluna;
+    } 
+    return aux;
+}
+Posicao Player::setDireita(Posicao _atual, int dir){
+    Posicao aux;
+    switch(dir){
+        case 0:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna+1;
+            break;
+        case 1:
+            aux.linha = _atual.linha+1;
+            aux.coluna = _atual.coluna;
+            break;
+        case 2:
+            aux.linha = _atual.linha;
+            aux.coluna = _atual.coluna-1;
+            break;
+        default:
+            aux.linha = _atual.linha-1;
+            aux.coluna = _atual.coluna;
+    }  
+    return aux;
+}
+int Player::next_move(int linha, int coluna, int direcao, vector<string> mapa){
+    Posicao frente, esquerda, direita;
+    Posicao aux;
+    aux.linha = linha;
+    aux.coluna = coluna;
+
+    frente = setFrente(aux, direcao);
+    esquerda = setEsquerda(aux, direcao);
+    direita = setDireita(aux, direcao);
+
+    if(mapa[frente.linha][frente.coluna] == ' ')
+        return 0;
+    else if(mapa[esquerda.linha][esquerda.coluna] == ' ')
+        return 1;
+    else if(mapa[direita.linha][direita.coluna] == ' ')
+        return 2;
+    else    
+        return 0;
+    /*Checkpoint 2
+    movimento++; 
+    return solucao[movimento-1];*/
+}
+/*Checkpoint 2
+bool Player::naoVisitado(Posicao local){
+    for(int i=0; i<visitado.size(); i++)
+        if(visitado[i].linha==local.linha && visitado[i].coluna==local.coluna)
+            return false;
     return true;
 }
-int Player::next_move(){
-    movimento++;
-    return solucao[movimento-1];
-}
+bool Player::find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna){    
+    Posicao frente, esquerda, direita;
+    Posicao atual;
+    atual.linha=l;
+    atual.coluna=c;
+    bool aux;
+    int diraux;
 
-using namespace std;
+    frente = setFrente(atual, dir);
+    esquerda = setEsquerda(atual, dir);
+    direita = setDireita(atual, dir);
+    if(solucao.size()>0)
+        cout<<solucao[solucao.size()-1];
+
+    if(l==flinha && c==fcoluna)
+        return true;
+    else if(mapa[frente.linha][frente.coluna] != '#' && naoVisitado(frente)){
+        visitado.push_back(frente);
+        solucao.push_back(0);
+
+        if(find_solution(frente.linha, frente.coluna, dir, mapa, flinha, fcoluna)){
+            //solucao.push_back(0);
+            return true;
+        }
+        solucao.pop_back();
+        return false;
+    }   
+    else if(mapa[esquerda.linha][esquerda.coluna] != '#' && naoVisitado(esquerda)){
+        visitado.push_back(esquerda);
+        solucao.push_back(1);
+        
+        diraux = dir-1;
+        if(diraux<0)
+            diraux=3;
+
+        if(find_solution(esquerda.linha, esquerda.coluna, diraux, mapa, flinha, fcoluna)){
+            //solucao.push_back(1);
+            return true;
+        }
+        solucao.pop_back();
+        return false;
+    }   
+    else if(mapa[direita.linha][direita.coluna] != '#' && naoVisitado(direita)){
+        visitado.push_back(direita);
+        solucao.push_back(2);
+
+        diraux = dir+1;
+        if(diraux>3)
+            diraux=0;
+
+        if(find_solution(direita.linha, direita.coluna, diraux, mapa, flinha, fcoluna)){
+            //solucao.push_back(2);
+            return true;
+        }
+        solucao.pop_back();
+        return false;
+    }   
+    return false;
+}*/
