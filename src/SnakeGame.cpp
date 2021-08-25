@@ -84,9 +84,9 @@ void SnakeGame::process_actions(){
     }
 }
 void SnakeGame::print_placar(){
-    cout<<"------------------------------------------------"<<endl;
-    cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: - | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
-    cout<<"------------------------------------------------"<<endl;
+    cout<<"------------------------------------------------------"<<endl;
+    cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
+    cout<<"------------------------------------------------------"<<endl;
 }
 void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
