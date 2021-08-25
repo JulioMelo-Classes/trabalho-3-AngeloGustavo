@@ -12,6 +12,7 @@ class Snake{
         int getTamanho();
         void setTamanho(int t);
         void addTamanho();
+        void zeraTamanho();
         void setPos(int l, int c);
         void turnLeft();
         void turnRight();
