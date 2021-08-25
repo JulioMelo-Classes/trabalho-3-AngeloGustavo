@@ -6,15 +6,20 @@
 class Snake{
     public:
         Snake();
+        int getLinha();
+        int getColuna();
+        int getDirecao();
+        int getTamanho();
+        void setTamanho(int t);
+        void addTamanho();
         void setPos(int l, int c);
         void turnLeft();
         void turnRight();
-        
+        void Move(int movimento);
+    private:
         int linha;
         int coluna;
         int direcao;
-        
-        void Move(int movimento);
-    private:
+        int tamanho;
 };
 #endif
