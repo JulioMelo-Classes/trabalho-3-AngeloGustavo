@@ -2,6 +2,7 @@
 #define Snake_h
 
 #include <vector>
+#include "Level.h"
 
 class Snake{
     public:
@@ -17,6 +18,7 @@ class Snake{
         void turnLeft();
         void turnRight();
         void Move(int movimento);
+        void voltaInicio(Pos inicio);
     private:
         int linha;
         int coluna;
