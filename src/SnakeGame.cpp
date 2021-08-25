@@ -111,7 +111,15 @@ void SnakeGame::update(){
                 //cobra.Move(jogador.next_move()); //Checkpoint 2
                 
             //Desenho do rabo (levar para Snake) (Ajeitar pq ta escrevendo por cima das paredes!!!!!!!!!!!!
-
+            pos aux;
+            aux.linha=cobra.getLinha().linha;
+            aux.coluna=cobra.getColuna().coluna;
+            rabo.push(aux);
+            maze[cobra.getLinha()][cobra.getColuna()]=='o';
+            if(rabo.size()>cobra.getTamanho()){
+                maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
+                rabo.pop();
+            }
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
@@ -121,6 +129,7 @@ void SnakeGame::update(){
             else{    
                 //começo do level
                 maze.clear();
+                cobra.zeraTamanho();
                 lvl++;
                 maze = niveis[lvl].getMapa();
                 cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
