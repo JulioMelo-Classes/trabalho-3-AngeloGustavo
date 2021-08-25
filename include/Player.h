@@ -10,22 +10,23 @@ struct Posicao{
     int linha;
     int coluna;
 };
-class Player{
+class Player{//Em comentário coisas só do Checkpoint 2
     public:
-        bool find_solution(vector<string> mapa);
-        int next_move();
-        void setPos(int l, int c);
-        void setDir(int dir);
         Player();
+        //bool find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna);
+        int next_move(int linha, int coluna, int direcao, vector<string> mapa);
     private:
-        Posicao setDireita(int l, int c, int dir);
-        Posicao setEsquerda(int l, int c, int dir);
-        Posicao setFrente(int l, int c, int dir);
-        int movimento;
-        vector<int> solucao;
-        vector<char> frente1;
-        Posicao atual;
-        int direcao;
+        Posicao setFrente(Posicao _atual, int dir);
+        Posicao setEsquerda(Posicao _atual, int dir);
+        Posicao setDireita(Posicao _atual, int dir);
+        //bool naoVisitado(Posicao local);
+    
+    private:
+        //vector<int> solucao;
+        //vector<Posicao> visitado;
+        //Posicao pos;
+        //int direcao;
+        //int movimento;
 };
 
 #endif
