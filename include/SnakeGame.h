@@ -4,7 +4,7 @@
 #include <vector>
 #include "Snake.h"
 #include "Player.h"
-
+#include "Level.h"
 
 class SnakeGame{
     public:
@@ -26,11 +26,17 @@ class SnakeGame{
         std::string choice; //<! usado na função process_actions para guardar a escolha do usuário
         GameStates state; //<! guarda o estado do jogo
 
+        std::vector<Level> niveis;//niveis
+        int lvl;//nivel atual
+        vector<char> cabecas;//animacao da cabeca
+        bool temRabo;
+        string arquivo;
+
     public:
         /**
         * @brief construtor padrão, fique à vontade para adicionar parâmetros se desejar
         **/
-        SnakeGame();
+        SnakeGame(bool arg1, string arg2);
 
         /**
         * @brief chamado no main, este loop executa o jogo indefinidamente até que o usuário escolha terminar!
