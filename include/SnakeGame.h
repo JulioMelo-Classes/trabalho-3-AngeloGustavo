@@ -48,6 +48,8 @@ class SnakeGame{
         */
         void loop();
 
+        void print_placar();
+
     private:
         /**
         * @brief realiza a inicialização geral do jogo, fique à vontade para adicionar parâmetros se achar que deve
