@@ -1,36 +1,33 @@
-# LP1 Projeto 3
+# LP1 Projeto 3: Snaze
 
-Neste projeto você irá fazer um simulador para o jogo snaze, melhores informações podem ser encontradas no [documento de especificação](https://www.overleaf.com/read/prcdstrjrdjr);
-
-## Sistema de build
-
-Escolha um dos sistemas de build que melhor agradar você, lembre que já vimos exemplos com [Makefile](https://www.gnu.org/software/make/manual/make.html) 
-e [Cmake](https://cmake.org/). Esta versão usa compilação básica usando a linha de comando, mas fica a ~~obrigação~~ sugestão, caso você queira mudar.
+## O que é o Snaze
+Uma simulação do jogo clássico Snake arcade video game, porém com a cobra presa em um labirinto.
 
 ## Organização
+Os arquivos ```.cpp``` estão na pasta  **<em>src</em>**, os ```.h``` na pasta **<em>include</em>**, os scripts em **<em>data</em>** e, após criado, os arquivos de compilação em **<em>build</em>**.
 
-Este repositório tem algumas classes iniciais que podem te ajudar a fazer o projeto, porém, fique à vontade para explorar as possibilidades.
-
-## Compilando e executando o exemplo
-
-No linux você pode compilar usando o g++. Apenas faça clone do projeto, e faça:
-
-```bash
-g++ src/*.cpp -o main -I./include
-./main
+## Como compilar o projeto
+Na pasta do projeto realize os próximos comandos para compilar o programa com cmake
+```console
+mkdir build
+cd build
+cmake ..
+cmake --build .
 ```
 
-No windows você pode compilar usando o g++ ou o cl de forma análoga:
-
-```bash
-g++ src/*.cpp -o main -I./include
-.\main.exe
+## Como executar o projeto
+O primeiro argumento é o inteiro 1 (modo com rabo) ou 0 (modo sem rabo) que remetem aos modos do snaze, e o segundo deve ser o endereço de um arquivo de texto com os dados de tamanho e comidas para cada nível e os seus mapas 
+```console
+./snaze 1 ../data/maze0.txt
 ```
-ou usando o CL
+## Autor
 
-```bash
-cl src/*.cpp -I./include
-.\Snaze.exe
-```
+Angelo Gustavo Souza Marinho Morais de Sales -
+[GitHub](https://github.com/AngeloGustavo)
 
-__Observação sobre o windows__: Ao realizar testes meu sistema detectou o programa como um virus, para conseguir executar eu tive que usar a versão compilada com o g++ ou configurar o windows defender para ignorar o executável que está na pasta do projeto (o problema só ocorre com a versão compilada pelo CL).
+## Contato
+
+Angelo Gustavo Souza Marinho Morais de Sales -
+*<angelo.sales.703@ufrn.edu.br>*
+
+Link do projeto: [https://github.com/JulioMelo-Classes/trabalho-3-AngeloGustavo.git](https://github.com/JulioMelo-Classes/trabalho-3-AngeloGustavo.git)
