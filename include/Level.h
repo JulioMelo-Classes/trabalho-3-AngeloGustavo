@@ -19,11 +19,18 @@ class Level{
         vector<string> getMapa();
         int getComidaTotal();
         int getJaComidas();
+        int getVidaTot();
+        int getVidaRes();
+        int getScore();
+        void perdeuLife();
     private:
         int linhas;
         int colunas;
         int comidaTot;
         int comidaRes;
+        int vidaTot;
+        int vidaRes;
+        int score;
         Pos inicio;
         Pos comida;
         vector<string> mapa;
