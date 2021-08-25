@@ -13,8 +13,12 @@ class SnakeGame{
         **/
         enum GameStates{
             RUNNING, //<! quando o jogo está executando o estado é RUNNING
-            GAME_OVER, //<! quando o jogo deve terminar o estado é GAME_OVER
+            GAME_OVER, //<! quando o jogador para antes do fim
             WAITING_USER //<! quando o jogo deve esperar por uma entrada do usuário o estado é WAITING_USER
+        };
+        enum OverCauses{
+            WIN, //<! quando o jogador passa de todas as fases
+            HIT //<! quando a cobra bate a cabeça ou na parede ou no próprio rabo
         };
 
     private:
@@ -25,6 +29,7 @@ class SnakeGame{
         int frameCount; //<! contador de frames, usado apenas como exemplo
         std::string choice; //<! usado na função process_actions para guardar a escolha do usuário
         GameStates state; //<! guarda o estado do jogo
+        OverCauses overstates;  //<! guarda o estado pós fim do jogo 
 
         std::vector<Level> niveis;//niveis
         int lvl;//nivel atual
