@@ -160,7 +160,7 @@ void SnakeGame::update(){
                 lvl++;
                 maze = niveis[lvl].getMapa();
                 cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
-                niveis[lvl].nextFood();
+                //niveis[lvl].nextFood();
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
                 state = RUNNING;
             }
@@ -233,6 +233,6 @@ void SnakeGame::loop(){
         process_actions();
         update();
         render();
-        wait(50);// espera 1 segundo entre cada frame
+        wait(100);// espera 1 segundo entre cada frame
     }
 }
