@@ -6,7 +6,7 @@ using namespace std;
 
 Snake::Snake(){
     direcao = 0;
-    tamanho = 3;
+    tamanho = 0;
 }
 int Snake::getLinha(){
     return linha;
@@ -19,6 +19,9 @@ int Snake::getDirecao(){
 }
 int Snake::getTamanho(){
     return tamanho;
+}
+void Snake::zeraTamanho(){
+    tamanho = 0;
 }
 void Snake::setTamanho(int t){
     tamanho = t;
