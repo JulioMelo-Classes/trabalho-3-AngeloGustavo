@@ -1,14 +1,18 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 #include "SnakeGame.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]){
     bool temRabo;
-    if(argv[1]=="1") temRabo=true;
-    else temRabo = false;
+    if(string(argv[1]) == "1") 
+        temRabo = true;
+    else 
+        temRabo = false;   
 
-    SnakeGame game(temRabo, argv[2]);
+    SnakeGame game(temRabo, argv[2]);    
     game.loop(); //bloqueia aqui e só saí quando o jogo termina
     
 
