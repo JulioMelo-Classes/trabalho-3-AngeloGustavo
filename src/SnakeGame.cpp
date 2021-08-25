@@ -81,7 +81,11 @@ void SnakeGame::process_actions(){
             break;
     }
 }
-
+void SnakeGame::print_placar(){
+    cout<<"------------------------------------------------"<<endl;
+    cout<<"Vidas: @ | Pontuação: - | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
+    cout<<"------------------------------------------------"<<endl;
+}
 void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
@@ -186,6 +190,7 @@ void SnakeGame::render(){
     }
     switch(state){
         case RUNNING:
+            print_placar();
             //desenha todas as linhas do labirinto
             for(int i=0; i<maze.size(); i++){
                 for(int j=0; j<maze[i].size(); j++){
