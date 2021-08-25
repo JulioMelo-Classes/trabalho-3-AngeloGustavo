@@ -64,3 +64,7 @@ void Snake::Move(int movimento){
             coluna--;
     }
 }
+void Snake::voltaInicio(Pos inicio){
+    linha = inicio.linha;
+    coluna = inicio.coluna;
+}
