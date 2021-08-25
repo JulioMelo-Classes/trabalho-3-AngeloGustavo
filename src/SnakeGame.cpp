@@ -87,39 +87,45 @@ void SnakeGame::update(){
     switch(state){
         case RUNNING:
             if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
-
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
-                /*Insere posicao que comeu comida
-                pos aux;
-                aux.linha=niveis[lvl].getPosComida().linha;
-                aux.coluna=niveis[lvl].getPosComida().coluna;
-                rabo.push(aux);*/
-
+                cobra.addTamanho();//Adiciona unidade a tamanho da cobra
                 niveis[lvl].nextFood();
                 if((niveis[lvl].getPosComida()).linha == -1){
                     state = WAITING_USER;
-                    if(lvl > niveis.size()-2)
+                    if(lvl > niveis.size()-2){
                         state = GAME_OVER;
+                        overstates = WIN;
+                    }
                 }
                 else
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
             }
-            else if(maze[cobra.getLinha()][cobra.getColuna()]=='#')
+            else if(maze[cobra.getLinha()][cobra.getColuna()]=='#' || maze[cobra.getLinha()][cobra.getColuna()]=='o'){
                 state = GAME_OVER;
+                overstates = HIT;
+            }
+
+            //Desenho do rabo (levar para Snake?) 
+            if(temRabo == true){//Desenha unidade do corpo no local passado pela cabeça da cobra
+                pos aux;
+                aux.linha=cobra.getLinha();
+                aux.coluna=cobra.getColuna();
+                rabo.push(aux);
+                maze[cobra.getLinha()][cobra.getColuna()]='o';
+            }
+            if(rabo.size()>cobra.getTamanho()){//Apaga unidade da trás caso não tenha comido nesse frame
+                maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
+                if(((rabo.front()).linha == (niveis[lvl].getPosComida().linha))&&
+                   ((rabo.front()).coluna == (niveis[lvl].getPosComida().coluna)))
+                   maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+                rabo.pop();
+            }
+            
             if(frameCount>0) 
                 cobra.Move(jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa()));
                 //cobra.Move(jogador.next_move()); //Checkpoint 2
                 
-            //Desenho do rabo (levar para Snake) (Ajeitar pq ta escrevendo por cima das paredes!!!!!!!!!!!!
-            pos aux;
-            aux.linha=cobra.getLinha().linha;
-            aux.coluna=cobra.getColuna().coluna;
-            rabo.push(aux);
-            maze[cobra.getLinha()][cobra.getColuna()]=='o';
-            if(rabo.size()>cobra.getTamanho()){
-                maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
-                rabo.pop();
-            }
+
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
@@ -130,6 +136,8 @@ void SnakeGame::update(){
                 //começo do level
                 maze.clear();
                 cobra.zeraTamanho();
+                while(!rabo.empty())
+                    rabo.pop();
                 lvl++;
                 maze = niveis[lvl].getMapa();
                 cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
@@ -168,6 +176,14 @@ void clearScreen(){
 
 void SnakeGame::render(){
     clearScreen();
+    switch(overstates){
+        case WIN:
+            cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
+            break;
+        case HIT:
+            cout<<"Parece que sua cobra bateu a cabeça! :°"<<endl;
+            break;
+    }
     switch(state){
         case RUNNING:
             //desenha todas as linhas do labirinto
