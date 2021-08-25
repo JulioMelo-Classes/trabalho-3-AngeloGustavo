@@ -34,6 +34,7 @@ class SnakeGame{
         std::vector<Level> niveis;//niveis
         int lvl;//nivel atual
         vector<char> cabecas;//animacao da cabeca
+        vector<string> vidas;//animação das vidas
         bool temRabo;//diz se a cobra é com ou sem rabo
         string arquivo;//string do arquivo de mapa e dados
 
