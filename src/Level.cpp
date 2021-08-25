@@ -9,7 +9,8 @@ using namespace std;
 Level::Level(int lin, int col, int com, vector<string> map){
     linhas = lin;
     colunas = col;
-    comidas = com;
+    comidaRes = com;
+    comidaTot = com;
     mapa = map;
 
     for(int i=0; i<mapa.size(); i++)
@@ -28,18 +29,24 @@ Level::Level(int lin, int col, int com, vector<string> map){
         }
     
     srand (time(NULL));
-    for(int i=0; i<comidas; i++){
+    for(int i=0; i<comidaRes; i++){
        posComidas.push_back( espacos[rand() % espacos.size() + 1] );
     }
+}
+int Level::getComidaTotal(){
+    return comidaTot;
+}
+int Level::getJaComidas(){
+    return comidaTot - comidaRes -1;
 }
 Pos Level::getPosComida(){
     return comida;
 }
 void Level::nextFood(){
-    comidas--;
-    comida.linha = posComidas[comidas].linha;
-    comida.coluna = posComidas[comidas].coluna;
-    if(comidas<0)
+    comidaRes--;
+    comida.linha = posComidas[comidaRes].linha;
+    comida.coluna = posComidas[comidaRes].coluna;
+    if(comidaRes<0)
         comida.linha=-1;
 }
 Pos Level::getInicio(){
