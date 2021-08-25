@@ -7,7 +7,7 @@ Uma simulação do jogo clássico Snake arcade video game, porém com a cobra pr
 Os arquivos ```.cpp``` estão na pasta  **<em>src</em>**, os ```.h``` na pasta **<em>include</em>**, os scripts em **<em>data</em>** e, após criado, os arquivos de compilação em **<em>build</em>**.
 
 ## Como compilar o projeto
-Na pasta do projeto realize os próximos comandos para compilar o programa com cmake
+Na pasta do projeto realize os próximos comandos para compilar o programa com cmake.
 ```console
 mkdir build
 cd build
@@ -16,7 +16,7 @@ cmake --build .
 ```
 
 ## Como executar o projeto
-O primeiro argumento é o inteiro 1 (modo com rabo) ou 0 (modo sem rabo) que remetem aos modos do snaze, e o segundo deve ser o endereço de um arquivo de texto com os dados de tamanho e comidas para cada nível e os seus mapas 
+Após o executavel ```./snaze``` o primeiro argumento é o inteiro ```1``` (modo com rabo) ou ```0``` (modo sem rabo) que remetem aos modos do snaze, e o segundo deve ser o endereço de um arquivo de texto (```.txt```) com os dados de tamanho e comidas para cada nível e os seus mapas.
 ```console
 ./snaze 1 ../data/maze0.txt
 ```
