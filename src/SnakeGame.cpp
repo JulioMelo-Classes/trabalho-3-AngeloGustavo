@@ -5,16 +5,24 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <queue>
+#include <sstream>
 
 #include <chrono> //por causa do sleep
 #include <thread> //por causa do sleep
 
 using namespace std;
+struct pos{
+    int linha;
+    int coluna;
+};
+queue<pos> rabo;
 
-vector<char> dire = {'V','<','A','>'};
-
-SnakeGame::SnakeGame(){
-    jogador.setDir(0);
+SnakeGame::SnakeGame(bool arg1, string arg2){
+    temRabo = arg1;
+    arquivo = arg2;
+    cabecas = {'V','<','A','>'};
+    lvl = 0;
     choice = "";
     frameCount = 0;
     initialize_game();
@@ -22,26 +30,38 @@ SnakeGame::SnakeGame(){
 
 void SnakeGame::initialize_game(){
     //carrega o nivel ou os níveis
-    ifstream levelFile("data/maze1.txt"); //só dá certo se o jogo for executado dentro da raíz do diretório (vc vai resolver esse problema pegando o arquivo da linha de comando)
-    int lineCount = 0;
+    ifstream levelFile(arquivo); 
     string line;
+    stringstream ss;
     if(levelFile.is_open()){
         while(getline(levelFile, line)){ //pega cada linha do arquivo
-            if(lineCount > 0){ //ignora a primeira linha já que ela contem informações que não são uteis para esse exemplo
-                maze.push_back(line);
+            vector<string> mapaaux;
+            int linhas, colunas, comidas;
+            
+            ss.clear();
+            ss << line;
+            ss >> linhas;
+            ss >> colunas;
+            ss >> comidas;
+            
+            for(int i=0; i<linhas; i++){
+                getline(levelFile, line);
+                mapaaux.push_back(line);
             }
-            lineCount++;
+            
+            Level levelaux(linhas, colunas, comidas, mapaaux);
+            niveis.push_back(levelaux);
         }
     }
-    for(int i=0; i<maze.size(); i++)
-        for(int j=0; j<maze[i].size(); j++)
-            if(maze[i][j] == '*'){
-                maze[i][j] = ' ';
-                cobra.setPos(i,j);
-                jogador.setPos(i,j);
-            }
+    
+    maze = niveis[lvl].getMapa();
+    cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+    niveis[lvl].nextFood();
+    maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
 
-    jogador.find_solution(maze);
+    //Checkpoint 2
+    //jogador.find_solution(cobra.getLinha(),cobra.getColuna(),cobra.getDirecao(),maze,comida.linha,comida.coluna);
+
     state = RUNNING;
 }
 
@@ -66,17 +86,46 @@ void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
         case RUNNING:
-            if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
-                state = WAITING_USER;
-            if(frameCount>0) cobra.Move(jogador.next_move());
+            if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
+
+                maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
+                /*Insere posicao que comeu comida
+                pos aux;
+                aux.linha=niveis[lvl].getPosComida().linha;
+                aux.coluna=niveis[lvl].getPosComida().coluna;
+                rabo.push(aux);*/
+
+                niveis[lvl].nextFood();
+                if((niveis[lvl].getPosComida()).linha == -1){
+                    state = WAITING_USER;
+                    if(lvl > niveis.size()-2)
+                        state = GAME_OVER;
+                }
+                else
+                    maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+            }
+            else if(maze[cobra.getLinha()][cobra.getColuna()]=='#')
+                state = GAME_OVER;
+            if(frameCount>0) 
+                cobra.Move(jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa()));
+                //cobra.Move(jogador.next_move()); //Checkpoint 2
+                
+            //Desenho do rabo (levar para Snake) (Ajeitar pq ta escrevendo por cima das paredes!!!!!!!!!!!!
+
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
                 state = GAME_OVER;
                 game_over();
             }
-            else{
-                //pode fazer alguma coisa antes de fazer isso aqui
+            else{    
+                //começo do level
+                maze.clear();
+                lvl++;
+                maze = niveis[lvl].getMapa();
+                cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+                niveis[lvl].nextFood();
+                maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
                 state = RUNNING;
             }
             break;
@@ -115,7 +164,7 @@ void SnakeGame::render(){
             //desenha todas as linhas do labirinto
             for(int i=0; i<maze.size(); i++){
                 for(int j=0; j<maze[i].size(); j++){
-                    if(i==cobra.linha and j==cobra.coluna) cout<<dire[cobra.direcao];
+                    if(i==cobra.getLinha() and j==cobra.getColuna()) cout<<cabecas[cobra.getDirecao()];
                     else cout<<maze[i][j];
                 }
                 cout<<endl;
@@ -139,6 +188,6 @@ void SnakeGame::loop(){
         process_actions();
         update();
         render();
-        wait(1000);// espera 1 segundo entre cada frame
+        wait(100);// espera 1 segundo entre cada frame
     }
 }
