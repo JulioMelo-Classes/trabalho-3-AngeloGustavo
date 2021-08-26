@@ -20,7 +20,7 @@ SnakeGame::SnakeGame(string arg2, bool arg1){
     temRabo = arg1;
     arquivo = arg2;
     cabecas = {'V','<','A','>'};
-    vidas = {"","@    ","@@   ","@@@  ","@@@@ ", "@@@@@"};
+    vidas = {"","♥    ","♥♥   ","♥♥♥  ","♥♥♥♥ ", "♥♥♥♥♥"};
     lvl = 0;
     choice = "";
     frameCount = 0;
@@ -207,6 +207,10 @@ void SnakeGame::render(){
             for(int i=0; i<maze.size(); i++){
                 for(int j=0; j<maze[i].size(); j++){
                     if(i==cobra.getLinha() and j==cobra.getColuna()) cout<<cabecas[cobra.getDirecao()];
+                    else if(maze[i][j]=='F')
+                        cout<<"ၜ";
+                    /*else if(maze[i][j]=='#')
+                        cout<<"◙";*/
                     else cout<<maze[i][j];
                 }
                 cout<<endl;
