@@ -31,18 +31,18 @@ class SnakeGame{
         GameStates state; //<! guarda o estado do jogo
         OverCauses overstates;  //<! guarda o estado pós fim do jogo 
 
-        std::vector<Level> niveis;//niveis
-        int lvl;//nivel atual
-        vector<char> cabecas;//animacao da cabeca
-        vector<string> vidas;//animação das vidas
-        bool temRabo;//diz se a cobra é com ou sem rabo
-        string arquivo;//string do arquivo de mapa e dados
+        std::vector<Level> niveis;//<! niveis do jogo
+        int lvl;//<! numero do nivel atual
+        vector<char> cabecas;//<! animacao da cabeca
+        vector<string> vidas;//<! animação das vidas
+        bool temRabo;//<! diz se o modo é com ou sem rabo
+        string arquivo;//<! string do nome do arquivo de mapa e dados
 
     public:
         /**
         * @brief construtor padrão, fique à vontade para adicionar parâmetros se desejar
         **/
-        SnakeGame(bool arg1, string arg2);
+        SnakeGame(string arg2, bool arg1);
 
         /**
         * @brief chamado no main, este loop executa o jogo indefinidamente até que o usuário escolha terminar!

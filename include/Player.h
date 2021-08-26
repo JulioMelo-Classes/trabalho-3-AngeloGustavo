@@ -15,6 +15,7 @@ class Player{//Em comentário coisas só do Checkpoint 2
         Player();
         //bool find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna);
         int next_move(int linha, int coluna, int direcao, vector<string> mapa);
+        int getSolucaoTam();
     private:
         Posicao setFrente(Posicao _atual, int dir);
         Posicao setEsquerda(Posicao _atual, int dir);
@@ -22,7 +23,7 @@ class Player{//Em comentário coisas só do Checkpoint 2
         //bool naoVisitado(Posicao local);
     
     private:
-        //vector<int> solucao;
+        vector<int> solucao;
         //vector<Posicao> visitado;
         //Posicao pos;
         //int direcao;

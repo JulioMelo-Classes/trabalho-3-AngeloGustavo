@@ -14,7 +14,7 @@ class Level{
     public:
         Level(int lin, int col, int com, vector<string> map);
         Pos getInicio();
-        void nextFood();
+        void nextFood(int solucaoTam);
         Pos getPosComida();
         vector<string> getMapa();
         int getComidaTotal();
@@ -24,18 +24,17 @@ class Level{
         int getScore();
         void perdeuLife();
     private:
-        int linhas;
-        int colunas;
-        int comidaTot;
-        int comidaRes;
-        int vidaTot;
-        int vidaRes;
-        int score;
-        Pos inicio;
-        Pos comida;
-        vector<string> mapa;
-        vector<Pos> espacos;
-        vector<Pos> posComidas;
+        int linhas; //<! linhas do mapa do nivel
+        int colunas; //<! colunas do mapa do nivel
+        int comidaTot; //<! comidas totais
+        int comidaRes; //<! comidas restantes
+        int vidaTot; //<! vidas totais
+        int vidaRes; //<! vidas restantes
+        int score; //<! pontuação do jogo
+        Pos inicio; //<! posição do inicio do nivel
+        Pos comida; //<! posicão atual da comida
+        vector<string> mapa; //<! mapa do nivel
+        vector<Pos> espacos; //<! espacos em branco do nivel
 };
 
 #endif
