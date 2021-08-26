@@ -12,13 +12,11 @@
 #include <thread> //por causa do sleep
 
 using namespace std;
-struct pos{
-    int linha;
-    int coluna;
-};
-queue<pos> rabo;
 
-SnakeGame::SnakeGame(bool arg1, string arg2){
+queue<Pos> rabo;
+
+#include "Pos.h"
+SnakeGame::SnakeGame(string arg2, bool arg1){
     temRabo = arg1;
     arquivo = arg2;
     cabecas = {'V','<','A','>'};
@@ -72,7 +70,7 @@ void SnakeGame::initialize_game(){
 void SnakeGame::process_actions(){
     //processa as entradas do jogador de acordo com o estado do jogo
     //nesse exemplo o jogo tem 3 estados, WAITING_USER, RUNNING e GAME_OVER.
-    //no caso deste trabalho temos 2 tipos de entrada, uma que vem da classe Player, como resultado do processamento da IA
+    //no caso deste trabalho temos 2 tiPos de entrada, uma que vem da classe Player, como resultado do processamento da IA
     //outra vem do próprio usuário na forma de uma entrada do teclado.
     switch(state){
         case WAITING_USER: //o jogo bloqueia aqui esperando o usuário digitar a escolha dele
@@ -95,7 +93,7 @@ void SnakeGame::update(){
             if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
                 cobra.addTamanho();//Adiciona unidade a tamanho da cobra
-                niveis[lvl].nextFood();
+                niveis[lvl].nextFood(jogador.getSolucaoTam());//Próxima comida e adição de pontos por sucesso
                 if((niveis[lvl].getPosComida()).linha == -1){
                     state = WAITING_USER;
                     if(lvl > niveis.size()-2){
@@ -108,12 +106,11 @@ void SnakeGame::update(){
             }
             else if(maze[cobra.getLinha()][cobra.getColuna()]=='#' || maze[cobra.getLinha()][cobra.getColuna()]=='o'){ 
                 if(niveis[lvl].getVidaRes() > 1 ){
-                    maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
+                    //Reseta nivel
                     niveis[lvl].perdeuLife();
                     cobra.voltaInicio(niveis[lvl].getInicio());
                     maze=niveis[lvl].getMapa();
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
-                    
                     cobra.zeraTamanho();
                     while(!rabo.empty())
                         rabo.pop();                   
@@ -126,7 +123,7 @@ void SnakeGame::update(){
 
             //Desenho do rabo (levar para Snake?) 
             if(temRabo == true){//Desenha unidade do corpo no local passado pela cabeça da cobra
-                pos aux;
+                Pos aux;
                 aux.linha=cobra.getLinha();
                 aux.coluna=cobra.getColuna();
                 rabo.push(aux);
@@ -233,6 +230,6 @@ void SnakeGame::loop(){
         process_actions();
         update();
         render();
-        wait(100);// espera 1 segundo entre cada frame
+        wait(50);// espera 1 segundo entre cada frame
     }
 }
