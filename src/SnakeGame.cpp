@@ -208,9 +208,7 @@ void SnakeGame::render(){
                 for(int j=0; j<maze[i].size(); j++){
                     if(i==cobra.getLinha() and j==cobra.getColuna()) cout<<cabecas[cobra.getDirecao()];
                     else if(maze[i][j]=='F')
-                        cout<<"ၜ";
-                    /*else if(maze[i][j]=='#')
-                        cout<<"◙";*/
+                        cout<<"●";
                     else cout<<maze[i][j];
                 }
                 cout<<endl;
