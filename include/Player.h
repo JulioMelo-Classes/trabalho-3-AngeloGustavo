@@ -3,13 +3,10 @@
 
 #include <vector>
 #include <string>
+#include "Pos.h"
 
 using namespace std;
 
-struct Posicao{
-    int linha;
-    int coluna;
-};
 class Player{//Em comentário coisas só do Checkpoint 2
     public:
         Player();
@@ -17,15 +14,15 @@ class Player{//Em comentário coisas só do Checkpoint 2
         int next_move(int linha, int coluna, int direcao, vector<string> mapa);
         int getSolucaoTam();
     private:
-        Posicao setFrente(Posicao _atual, int dir);
-        Posicao setEsquerda(Posicao _atual, int dir);
-        Posicao setDireita(Posicao _atual, int dir);
-        //bool naoVisitado(Posicao local);
+        Pos setFrente(Pos _atual, int dir);
+        Pos setEsquerda(Pos _atual, int dir);
+        Pos setDireita(Pos _atual, int dir);
+        //bool naoVisitado(Pos local);
     
     private:
         vector<int> solucao;
-        //vector<Posicao> visitado;
-        //Posicao pos;
+        //vector<Pos> visitado;
+        //Pos pos;
         //int direcao;
         //int movimento;
 };

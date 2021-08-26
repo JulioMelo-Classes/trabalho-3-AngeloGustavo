@@ -2,7 +2,7 @@
 #define Snake_h
 
 #include <vector>
-#include "Level.h"
+#include "Pos.h"
 
 class Snake{
     public:

@@ -3,13 +3,10 @@
 
 #include <vector>
 #include <string>
+#include "Pos.h"
 
 using namespace std;
 
-struct Pos{
-    int linha;
-    int coluna;
-};
 class Level{
     public:
         Level(int lin, int col, int com, vector<string> map);

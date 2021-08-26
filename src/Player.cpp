@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Pos.h"
 
 #include <vector>
 #include <string>
@@ -9,8 +10,8 @@ using namespace std;
 Player::Player(){
     //movimento=0;
 }
-Posicao Player::setFrente(Posicao _atual, int dir){
-    Posicao aux;
+Pos Player::setFrente(Pos _atual, int dir){
+    Pos aux;
     switch(dir){
         case 0:
             aux.linha = _atual.linha-1;
@@ -30,8 +31,8 @@ Posicao Player::setFrente(Posicao _atual, int dir){
     }
     return aux;
 }
-Posicao Player::setEsquerda(Posicao _atual, int dir){
-    Posicao aux;
+Pos Player::setEsquerda(Pos _atual, int dir){
+    Pos aux;
     switch(dir){
         case 0:
             aux.linha = _atual.linha;
@@ -51,8 +52,8 @@ Posicao Player::setEsquerda(Posicao _atual, int dir){
     } 
     return aux;
 }
-Posicao Player::setDireita(Posicao _atual, int dir){
-    Posicao aux;
+Pos Player::setDireita(Pos _atual, int dir){
+    Pos aux;
     switch(dir){
         case 0:
             aux.linha = _atual.linha;
@@ -76,8 +77,8 @@ int Player::getSolucaoTam(){
     return solucao.size();
 }
 int Player::next_move(int linha, int coluna, int direcao, vector<string> mapa){
-    Posicao frente, esquerda, direita;
-    Posicao aux;
+    Pos frente, esquerda, direita;
+    Pos aux;
     aux.linha = linha;
     aux.coluna = coluna;
 
@@ -98,15 +99,15 @@ int Player::next_move(int linha, int coluna, int direcao, vector<string> mapa){
     return solucao[movimento-1];*/
 }
 /*Checkpoint 2
-bool Player::naoVisitado(Posicao local){
+bool Player::naoVisitado(Pos local){
     for(int i=0; i<visitado.size(); i++)
         if(visitado[i].linha==local.linha && visitado[i].coluna==local.coluna)
             return false;
     return true;
 }
 bool Player::find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna){    
-    Posicao frente, esquerda, direita;
-    Posicao atual;
+    Pos frente, esquerda, direita;
+    Pos atual;
     atual.linha=l;
     atual.coluna=c;
     bool aux;

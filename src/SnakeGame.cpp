@@ -1,5 +1,5 @@
 #include "SnakeGame.h"
-#include "Snake.h"
+#include "Pos.h"
 
 #include <iostream>
 #include <fstream>
@@ -15,11 +15,10 @@ using namespace std;
 
 queue<Pos> rabo;
 
-#include "Pos.h"
-SnakeGame::SnakeGame(string arg2, bool arg1){
-    temRabo = arg1;
-    arquivo = arg2;
-    cabecas = {'V','<','A','>'};
+SnakeGame::SnakeGame(string arg1, bool arg2){
+    arquivo = arg1;
+    temRabo = arg2;
+    cabecas = {'v','<','^','>'};
     vidas = {"","♥    ","♥♥   ","♥♥♥  ","♥♥♥♥ ", "♥♥♥♥♥"};
     lvl = 0;
     choice = "";
@@ -56,9 +55,6 @@ void SnakeGame::initialize_game(){
     maze = niveis[lvl].getMapa();
     cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
-    cobra.zeraTamanho();
-    while(!rabo.empty())
-        rabo.pop();
     //Checkpoint 2
     //jogador.find_solution(cobra.getLinha(),cobra.getColuna(),cobra.getDirecao(),maze,comida.linha,comida.coluna);
 
@@ -66,7 +62,7 @@ void SnakeGame::initialize_game(){
 }
 
 
-
+int movimento;
 void SnakeGame::process_actions(){
     //processa as entradas do jogador de acordo com o estado do jogo
     //nesse exemplo o jogo tem 3 estados, WAITING_USER, RUNNING e GAME_OVER.
@@ -75,6 +71,9 @@ void SnakeGame::process_actions(){
     switch(state){
         case WAITING_USER: //o jogo bloqueia aqui esperando o usuário digitar a escolha dele
             cin>>std::ws>>choice;
+            break;
+        case RUNNING:
+            movimento = jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa());
             break;
         default:
             //nada pra fazer aqui
@@ -109,7 +108,7 @@ void SnakeGame::update(){
                     //Reseta nivel
                     niveis[lvl].perdeuLife();
                     cobra.voltaInicio(niveis[lvl].getInicio());
-                    maze=niveis[lvl].getMapa();
+                    maze = niveis[lvl].getMapa();
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
                     cobra.zeraTamanho();
                     while(!rabo.empty())
@@ -133,12 +132,12 @@ void SnakeGame::update(){
                 maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
                 if(((rabo.front()).linha == (niveis[lvl].getPosComida().linha))&&
                    ((rabo.front()).coluna == (niveis[lvl].getPosComida().coluna)))
-                   maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+                   maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';//tirar espacos de rabo]]]]]]
                 rabo.pop();
             }
             
             if(frameCount>0) 
-                cobra.Move(jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa()));
+                cobra.Move(movimento);
                 //cobra.Move(jogador.next_move()); //Checkpoint 2
                 
 
