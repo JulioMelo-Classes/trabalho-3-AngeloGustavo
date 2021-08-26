@@ -30,11 +30,17 @@ Level::Level(int lin, int col, int com, vector<string> map){
         }
     
     srand (time(NULL));
-    for(int i=0; i<comidaRes; i++){
+    Pos sort = espacos[rand() % espacos.size() + 1];
+    comida.linha = sort.linha;
+    comida.coluna = sort.coluna;
+
+    
+    /*for(int i=0; i<comidaRes; i++){
        posComidas.push_back( espacos[rand() % espacos.size() + 1] );
     }
     comida.linha = posComidas[comidaRes-1].linha;
-    comida.coluna = posComidas[comidaRes-1].coluna;
+    comida.coluna = posComidas[comidaRes-1].coluna;*/
+    
 }
 int Level::getComidaTotal(){
     return comidaTot;
@@ -61,20 +67,23 @@ void Level::perdeuLife(){
     vidaRes--;
     score = 0;
     comidaRes = comidaTot;
-    posComidas.clear();
+
     srand (time(NULL));
-    for(int i=0; i<comidaTot; i++){
-       posComidas.push_back( espacos[rand() % espacos.size() + 1] );
-    }
-    comida.linha = posComidas[comidaRes-1].linha;
-    comida.coluna = posComidas[comidaRes-1].coluna;
+    Pos sort = espacos[rand() % espacos.size() + 1];
+    comida.linha = sort.linha;
+    comida.coluna = sort.coluna;
 }
-void Level::nextFood(){
+void Level::nextFood(int solucaoTam){
     comidaRes--;
-    comida.linha = posComidas[comidaRes-1].linha;
-    comida.coluna = posComidas[comidaRes-1].coluna;
+    
+    srand (time(NULL));
+    Pos sort = espacos[rand() % espacos.size() + 1];
+    comida.linha = sort.linha;
+    comida.coluna = sort.coluna;
     if(comidaRes<1)
-        comida.linha=-1;
+        comida.linha = -1;
+
+    score += espacos.size() - solucaoTam;
 }
 vector<string> Level::getMapa(){
     return mapa;

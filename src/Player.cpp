@@ -72,6 +72,9 @@ Posicao Player::setDireita(Posicao _atual, int dir){
     }  
     return aux;
 }
+int Player::getSolucaoTam(){
+    return solucao.size();
+}
 int Player::next_move(int linha, int coluna, int direcao, vector<string> mapa){
     Posicao frente, esquerda, direita;
     Posicao aux;
