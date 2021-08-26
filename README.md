@@ -16,7 +16,7 @@ cmake --build .
 ```
 
 ## Como executar o projeto
-Após o executavel ```./snaze``` o primeiro argumento é o inteiro ```1``` (modo com rabo) ou ```0``` (modo sem rabo) que remetem aos modos do snaze, e o segundo deve ser o endereço de um arquivo de texto (```.txt```) com os dados de tamanho e comidas para cada nível e os seus mapas.
+Após o executavel ```./snaze``` o primeiro argumento deve ser o endereço de um arquivo de texto (```.txt```) com os dados de tamanho e comidas para cada nível e os seus mapas, e o segundo é o inteiro ```1``` (modo com rabo) ou ```0``` (modo sem rabo) que remetem aos modos do snaze.
 ```console
 ./snaze 1 ../data/maze0.txt
 ```
