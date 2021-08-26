@@ -37,6 +37,7 @@ class SnakeGame{
         vector<string> vidas;//<! animação das vidas
         bool temRabo;//<! diz se o modo é com ou sem rabo
         string arquivo;//<! string do nome do arquivo de mapa e dados
+        int movimento;//<! movimento a ser executado por move()
 
     public:
         /**

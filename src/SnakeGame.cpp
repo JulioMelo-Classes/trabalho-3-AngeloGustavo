@@ -61,8 +61,6 @@ void SnakeGame::initialize_game(){
     state = RUNNING;
 }
 
-
-int movimento;
 void SnakeGame::process_actions(){
     //processa as entradas do jogador de acordo com o estado do jogo
     //nesse exemplo o jogo tem 3 estados, WAITING_USER, RUNNING e GAME_OVER.
