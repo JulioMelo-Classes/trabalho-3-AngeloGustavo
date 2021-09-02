@@ -108,3 +108,4 @@ OK
 - No cp 1 você deveria tomar uma decisão aleatória na classe palyer, como a gente conversou na entrevista a forma como vc fez causa a cobrinha a sempre tomar a mesma decisão. No seu caso era uma questão de colocar as possibilidades em um vetor e depois escolher uma delas aleatóriamente.
 - A decisão de separar cobra e rabo não tem sentido em termos lógicos como conversei com você na entrevista. O melhor seria que a classe snake tivesse também o rabo. Inclusive muitos dos testes que você faz em snakegame poderiam ser colocados dentro da classe snake ou da classe mapa, dependendo de qual teste é realizado e de quem tem direito sobre os dados.
 - O carregamento de mapas poderia ir para a classe level de alguma forma. Seria um bom ponto para um método estático!
+- Durante a execução, quando a cobra colide na parede, ela é desenhada "dentro" da parede, isso não deveria ocorrer!
