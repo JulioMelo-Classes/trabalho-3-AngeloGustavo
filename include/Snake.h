@@ -19,10 +19,11 @@ class Snake{
         void turnRight();
         void Move(int movimento);
         void voltaInicio(Pos inicio);
+        Pos getPos();
     private:
-        int linha;
-        int coluna;
-        int direcao;
-        int tamanho;
+        int linha;//<! 
+        int coluna;//<! 
+        int direcao;//<! 
+        int tamanho;//<! 
 };
 #endif

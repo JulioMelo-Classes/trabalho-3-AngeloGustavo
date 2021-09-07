@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <queue>
 #include <sstream>
 
 #include <chrono> //por causa do sleep
@@ -13,7 +12,6 @@
 
 using namespace std;
 
-queue<Pos> rabo;
 
 SnakeGame::SnakeGame(string arg1, bool arg2){
     arquivo = arg1;
@@ -55,8 +53,9 @@ void SnakeGame::initialize_game(){
     maze = niveis[lvl].getMapa();
     cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
-    //Checkpoint 2
-    //jogador.find_solution(cobra.getLinha(),cobra.getColuna(),cobra.getDirecao(),maze,comida.linha,comida.coluna);
+        
+    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
+    jogador.movimento = jogador.getSolucaoTam();
 
     state = RUNNING;
 }
@@ -71,7 +70,8 @@ void SnakeGame::process_actions(){
             cin>>std::ws>>choice;
             break;
         case RUNNING:
-            movimento = jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa());
+            //movimento = jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa());
+            movimento = jogador.next_move(); //Checkpoint 2
             break;
         default:
             //nada pra fazer aqui
@@ -86,28 +86,63 @@ void SnakeGame::print_placar(){
 void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
+        case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
+            if(choice == "n"){
+                state = GAME_OVER;
+                game_over();
+            }
+            else{    
+                //começo do level
+                maze.clear();
+                cobra.zeraTamanho();
+                while(!rabo.empty())
+                    rabo.pop();
+                lvl++;
+                maze = niveis[lvl].getMapa();
+                cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+                maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+                
+                jogador.clearSolucao();
+                jogador.find_solution(cobra.getPos(),cobra.getDirecao(),maze);
+                jogador.movimento = jogador.getSolucaoTam();
+                                
+                state = RUNNING;
+            }
+            break;
         case RUNNING:
+            cobra.Move(movimento);
+
             if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
                 cobra.addTamanho();//Adiciona unidade a tamanho da cobra
                 niveis[lvl].nextFood(jogador.getSolucaoTam());//Próxima comida e adição de pontos por sucesso
                 if((niveis[lvl].getPosComida()).linha == -1){
                     state = WAITING_USER;
-                    if(lvl > niveis.size()-2){
+                    if(lvl >= niveis.size()-1){
                         state = GAME_OVER;
                         overstates = WIN;
                     }
                 }
-                else
+                else{
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+
+                    jogador.clearSolucao();
+                    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
+                    jogador.movimento = jogador.getSolucaoTam();
+                }
             }
             else if(maze[cobra.getLinha()][cobra.getColuna()]=='#' || maze[cobra.getLinha()][cobra.getColuna()]=='o'){ 
-                if(niveis[lvl].getVidaRes() > 1 ){
+                if(niveis[lvl].getVidaRes() > 1){
                     //Reseta nivel
                     niveis[lvl].perdeuLife();
                     cobra.voltaInicio(niveis[lvl].getInicio());
                     maze = niveis[lvl].getMapa();
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
+
+                    jogador.clearSolucao();
+                    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
+                    jogador.movimento = jogador.getSolucaoTam();
+
                     cobra.zeraTamanho();
                     while(!rabo.empty())
                         rabo.pop();                   
@@ -118,7 +153,7 @@ void SnakeGame::update(){
                 }
             }
 
-            //Desenho do rabo (levar para Snake?) 
+            //Desenho do rabo (por em snake)
             if(temRabo == true){//Desenha unidade do corpo no local passado pela cabeça da cobra
                 Pos aux;
                 aux.linha=cobra.getLinha();
@@ -134,31 +169,11 @@ void SnakeGame::update(){
                 rabo.pop();
             }
             
-            if(frameCount>0) 
-                cobra.Move(movimento);
-                //cobra.Move(jogador.next_move()); //Checkpoint 2
+            //if(frameCount>0) 
                 
 
             break;
-        case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
-            if(choice == "n"){
-                state = GAME_OVER;
-                game_over();
-            }
-            else{    
-                //começo do level
-                maze.clear();
-                cobra.zeraTamanho();
-                while(!rabo.empty())
-                    rabo.pop();
-                lvl++;
-                maze = niveis[lvl].getMapa();
-                cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
-                //niveis[lvl].nextFood();
-                maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
-                state = RUNNING;
-            }
-            break;
+
         default:
             //nada pra fazer aqui
             break;
@@ -200,6 +215,7 @@ void SnakeGame::render(){
     switch(state){
         case RUNNING:
             print_placar();
+            jogador.printSolucao();
             //desenha todas as linhas do labirinto
             for(int i=0; i<maze.size(); i++){
                 for(int j=0; j<maze[i].size(); j++){

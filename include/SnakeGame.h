@@ -2,6 +2,7 @@
 #define SnakeGame_h
 #include <iostream>
 #include <vector>
+#include <queue>
 #include "Snake.h"
 #include "Player.h"
 #include "Level.h"
@@ -38,6 +39,7 @@ class SnakeGame{
         bool temRabo;//<! diz se o modo é com ou sem rabo
         string arquivo;//<! string do nome do arquivo de mapa e dados
         int movimento;//<! movimento a ser executado por move()
+        queue<Pos> rabo;
 
     public:
         /**

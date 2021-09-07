@@ -3,28 +3,32 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include "Pos.h"
 
 using namespace std;
 
-class Player{//Em comentário coisas só do Checkpoint 2
+class Player{
     public:
         Player();
-        //bool find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna);
-        int next_move(int linha, int coluna, int direcao, vector<string> mapa);
+        bool find_solution(Pos atual, int dir, vector<string> mapa);
+        int next_move();
         int getSolucaoTam();
+        void printSolucao();
+        void clearSolucao();
+        //void attMovimento();
+        int movimento;
     private:
         Pos setFrente(Pos _atual, int dir);
         Pos setEsquerda(Pos _atual, int dir);
         Pos setDireita(Pos _atual, int dir);
-        //bool naoVisitado(Pos local);
+        bool naoVisitado(Pos local, int dir);
     
     private:
         vector<int> solucao;
-        //vector<Pos> visitado;
-        //Pos pos;
-        //int direcao;
-        //int movimento;
+        map<Pos, int> visitado;
+        Pos pos;
+        int direcao;
 };
 
 #endif

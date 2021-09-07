@@ -8,6 +8,12 @@ Snake::Snake(){
     direcao = 0;
     tamanho = 0;
 }
+Pos Snake::getPos(){
+    Pos aux;
+    aux.linha = linha;
+    aux.coluna = coluna;
+    return aux;
+}
 int Snake::getLinha(){
     return linha;
 }
@@ -46,9 +52,11 @@ void Snake::turnRight(){
 void Snake::Move(int movimento){
     if(movimento == 1)
         turnLeft();
+        //direcao = (direcao - 1)%4;
 
     else if(movimento == 2)
         turnRight();
+        //direcao = (direcao + 1)%4;
 
     switch(direcao){
         case 0:
@@ -67,4 +75,5 @@ void Snake::Move(int movimento){
 void Snake::voltaInicio(Pos inicio){
     linha = inicio.linha;
     coluna = inicio.coluna;
+    direcao = 0;
 }

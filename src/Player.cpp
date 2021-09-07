@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 #include <iostream>
 
 using namespace std;
@@ -73,38 +74,88 @@ Pos Player::setDireita(Pos _atual, int dir){
     }  
     return aux;
 }
+void Player::printSolucao(){
+    cout<<"movimento "<<solucao.size()-movimento<<": "<<solucao[movimento-1]<<endl;
+    for(int i=solucao.size()-1; i>=0; i--){
+        if(i==movimento-1)
+            cout<<"["<<solucao[i]<<"]";
+        else
+            cout<<solucao[i];
+    }
+    cout<<endl;
+}
+void Player::clearSolucao(){
+    solucao.clear();
+    visitado.clear();
+}
+bool Player::find_solution(Pos atual, int dir, vector<string> mapa){
+    Pos frente, esquerda, direita;
+
+    int diresq, dirdir;
+    diresq = dir-1;
+        if(diresq<0)
+            diresq=3;
+    dirdir = dir+1;
+        if(dirdir>3)
+            dirdir=0;
+
+    frente = setFrente(atual, dir);
+    esquerda = setEsquerda(atual, dir);
+    direita = setDireita(atual, dir);
+    
+    if(mapa[atual.linha][atual.coluna]=='F')
+        return true;
+    else if(mapa[frente.linha][frente.coluna] != '#' && find_solution(frente, dir, mapa) && naoVisitado(frente, dir)){
+        solucao.push_back(0);
+        return true;
+    }
+    else if(mapa[esquerda.linha][esquerda.coluna] != '#' && find_solution(esquerda, diresq, mapa) && naoVisitado(esquerda, (dir-1)%4)){
+        solucao.push_back(1);
+        return true;
+    }
+    else if(mapa[direita.linha][direita.coluna] != '#' && find_solution(direita, dirdir, mapa) && naoVisitado(direita, (dir+1)%4)){
+        solucao.push_back(2);
+        return true;
+    }
+    return false;
+}
+int Player::next_move(){
+    movimento--;
+    return solucao[movimento];
+}
+
 int Player::getSolucaoTam(){
     return solucao.size();
 }
-int Player::next_move(int linha, int coluna, int direcao, vector<string> mapa){
-    Pos frente, esquerda, direita;
-    Pos aux;
-    aux.linha = linha;
-    aux.coluna = coluna;
 
-    frente = setFrente(aux, direcao);
-    esquerda = setEsquerda(aux, direcao);
-    direita = setDireita(aux, direcao);
-
-    if(mapa[frente.linha][frente.coluna] == ' ')
-        return 0;
-    else if(mapa[esquerda.linha][esquerda.coluna] == ' ')
-        return 1;
-    else if(mapa[direita.linha][direita.coluna] == ' ')
-        return 2;
-    else    
-        return 0;
-    /*Checkpoint 2
-    movimento++; 
-    return solucao[movimento-1];*/
-}
-/*Checkpoint 2
-bool Player::naoVisitado(Pos local){
-    for(int i=0; i<visitado.size(); i++)
-        if(visitado[i].linha==local.linha && visitado[i].coluna==local.coluna)
-            return false;
+bool Player::naoVisitado(Pos local, int dir){
+    //for(auto i=visitado.begin(); i!=visitado.end(); i++)
+        //if(i->first.linha == local.linha && i->first.coluna == local.coluna && i->second == dir)
+            //return false;
     return true;
 }
+
+
+/*Pos frente, esquerda, direita;
+Pos aux;
+aux.linha = linha;
+aux.coluna = coluna;
+
+frente = setFrente(aux, direcao);
+esquerda = setEsquerda(aux, direcao);
+direita = setDireita(aux, direcao);
+
+if(mapa[frente.linha][frente.coluna] == ' ')
+    return 0;
+else if(mapa[esquerda.linha][esquerda.coluna] == ' ')
+    return 1;
+else if(mapa[direita.linha][direita.coluna] == ' ')
+    return 2;
+else    
+    return 0;
+//Checkpoint 2
+
+
 bool Player::find_solution(int l, int c, int dir, vector<string> mapa, int flinha, int fcoluna){    
     Pos frente, esquerda, direita;
     Pos atual;
@@ -112,6 +163,9 @@ bool Player::find_solution(int l, int c, int dir, vector<string> mapa, int flinh
     atual.coluna=c;
     bool aux;
     int diraux;
+
+    movimento=0;
+    solucao.clear();
 
     frente = setFrente(atual, dir);
     esquerda = setEsquerda(atual, dir);
