@@ -41,6 +41,10 @@ Pos Player::setEsquerda(Pos _atual, int dir){
         default:
             _atual.linha++;
     } 
+    dir--;
+    if(dir<0)
+        dir=3;
+    _atual.direcao = dir;
     return _atual;
 }
 Pos Player::setDireita(Pos _atual, int dir){
@@ -57,6 +61,10 @@ Pos Player::setDireita(Pos _atual, int dir){
         default:
             _atual.linha--;
     }  
+    dir++;
+    if(dir>3)
+        dir=0;
+    _atual.direcao = dir;
     return _atual;
 }
 void Player::printSolucao(){
@@ -68,6 +76,7 @@ void Player::printSolucao(){
             cout<<solucao[i];
     }
     cout<<endl;
+    cout<<visitado.size()<<endl;
 }
 void Player::clearSolucao(){
     solucao.clear();
@@ -84,24 +93,29 @@ bool Player::find_solution(Pos atual, int dir, vector<string> mapa){
         if(dirdir>3)
             dirdir=0;
 
+    atual.direcao=dir;
+    visitado.push_back(atual);
+
     frente = setFrente(atual, dir);
     esquerda = setEsquerda(atual, dir);
     direita = setDireita(atual, dir);
     
-    if(mapa[atual.linha][atual.coluna]=='F')
+    if(mapa[atual.linha][atual.coluna]=='F'){
         return true;
-    else if(mapa[frente.linha][frente.coluna] != '#' && find_solution(frente, dir, mapa) && naoVisitado(frente, dir)){
+    }
+    else if(mapa[frente.linha][frente.coluna] != '#' && naoVisitado(frente) && find_solution(frente, dir, mapa)){
         solucao.push_back(0);
         return true;
     }
-    else if(mapa[esquerda.linha][esquerda.coluna] != '#' && find_solution(esquerda, diresq, mapa) && naoVisitado(esquerda, (dir-1)%4)){
+    else if(mapa[esquerda.linha][esquerda.coluna] != '#' && naoVisitado(esquerda) && find_solution(esquerda, diresq, mapa)){
         solucao.push_back(1);
         return true;
     }
-    else if(mapa[direita.linha][direita.coluna] != '#' && find_solution(direita, dirdir, mapa) && naoVisitado(direita, (dir+1)%4)){
+    else if(mapa[direita.linha][direita.coluna] != '#' && naoVisitado(direita) && find_solution(direita, dirdir, mapa)){
         solucao.push_back(2);
         return true;
     }
+    visitado.pop_back();
     return false;
 }
 int Player::next_move(){
@@ -113,10 +127,10 @@ int Player::getSolucaoTam(){
     return solucao.size();
 }
 
-bool Player::naoVisitado(Pos local, int dir){
-    //for(auto i=visitado.begin(); i!=visitado.end(); i++)
-        //if(i->first.linha == local.linha && i->first.coluna == local.coluna && i->second == dir)
-            //return false;
+bool Player::naoVisitado(Pos _local){
+    for(int i=0; i<visitado.size(); i++)
+        if(visitado[i].linha == _local.linha && visitado[i].coluna == _local.coluna && visitado[i].direcao == _local.direcao )
+            return false;
     return true;
 }
 

@@ -224,7 +224,8 @@ void SnakeGame::render(){
             }
             break;
         case WAITING_USER:
-            cout<<"Você quer continuar com o jogo? (s/n)"<<endl;
+            cout<<"Você sobreviveu a este labirinto!!"<<endl;
+            cout<<"Pronto para a fase "<<lvl+2<<"? (s/n)"<<endl;
             break;
         case GAME_OVER:
             cout<<"O jogo terminou!"<<endl;

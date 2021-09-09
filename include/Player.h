@@ -22,11 +22,12 @@ class Player{
         Pos setFrente(Pos _atual, int dir);
         Pos setEsquerda(Pos _atual, int dir);
         Pos setDireita(Pos _atual, int dir);
-        bool naoVisitado(Pos local, int dir);
+        bool naoVisitado(Pos local);
     
     private:
+        //vector<vector<int>> solucao;
         vector<int> solucao;
-        map<Pos, int> visitado;
+        vector<Pos> visitado;
         Pos pos;
         int direcao;
 };
