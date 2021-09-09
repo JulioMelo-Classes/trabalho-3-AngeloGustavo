@@ -4,6 +4,7 @@
 struct Pos{
     int linha;
     int coluna;
+    int direcao;
 };
 
 #endif

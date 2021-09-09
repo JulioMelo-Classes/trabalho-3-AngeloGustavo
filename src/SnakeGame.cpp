@@ -86,7 +86,8 @@ void SnakeGame::print_placar(){
 void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
-        case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
+        case WAITING_USER:
+         //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
                 state = GAME_OVER;
                 game_over();
@@ -110,6 +111,22 @@ void SnakeGame::update(){
             }
             break;
         case RUNNING:
+            //Desenho do rabo (por em snake)
+            if(temRabo == true){//Desenha unidade do corpo no local passado pela cabeça da cobra
+                Pos aux;
+                aux.linha=cobra.getLinha();
+                aux.coluna=cobra.getColuna();
+                rabo.push(aux);
+                maze[cobra.getLinha()][cobra.getColuna()]='o';
+            }
+            if(rabo.size()>cobra.getTamanho()){//Apaga unidade da trás caso não tenha comido nesse frame
+                maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
+                if(((rabo.front()).linha == (niveis[lvl].getPosComida().linha))&&
+                   ((rabo.front()).coluna == (niveis[lvl].getPosComida().coluna)))
+                   maze[(rabo.front()).linha][(rabo.front()).coluna] = 'F';//tirar espacos de rabo]]]]]]
+                rabo.pop();
+            }      
+            
             cobra.Move(movimento);
 
             if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
@@ -152,28 +169,7 @@ void SnakeGame::update(){
                     overstates = HIT;
                 }
             }
-
-            //Desenho do rabo (por em snake)
-            if(temRabo == true){//Desenha unidade do corpo no local passado pela cabeça da cobra
-                Pos aux;
-                aux.linha=cobra.getLinha();
-                aux.coluna=cobra.getColuna();
-                rabo.push(aux);
-                maze[cobra.getLinha()][cobra.getColuna()]='o';
-            }
-            if(rabo.size()>cobra.getTamanho()){//Apaga unidade da trás caso não tenha comido nesse frame
-                maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
-                if(((rabo.front()).linha == (niveis[lvl].getPosComida().linha))&&
-                   ((rabo.front()).coluna == (niveis[lvl].getPosComida().coluna)))
-                   maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';//tirar espacos de rabo]]]]]]
-                rabo.pop();
-            }
-            
-            //if(frameCount>0) 
-                
-
             break;
-
         default:
             //nada pra fazer aqui
             break;

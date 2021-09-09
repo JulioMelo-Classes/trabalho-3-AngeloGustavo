@@ -12,67 +12,52 @@ Player::Player(){
     //movimento=0;
 }
 Pos Player::setFrente(Pos _atual, int dir){
-    Pos aux;
     switch(dir){
         case 0:
-            aux.linha = _atual.linha-1;
-            aux.coluna = _atual.coluna;
+            _atual.linha--;
             break;
         case 1:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna+1;
+            _atual.coluna++;
             break;
         case 2:
-            aux.linha = _atual.linha+1;
-            aux.coluna = _atual.coluna;
+            _atual.linha++;
             break;
         default:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna-1;
+            _atual.coluna--;
     }
-    return aux;
+    return _atual;
 }
 Pos Player::setEsquerda(Pos _atual, int dir){
-    Pos aux;
     switch(dir){
         case 0:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna-1;
+            _atual.coluna--;
             break;
         case 1:
-            aux.linha = _atual.linha-1;
-            aux.coluna = _atual.coluna;
+            _atual.linha--;
             break;
         case 2:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna+1;
+            _atual.coluna++;
             break;
         default:
-            aux.linha = _atual.linha+1;
-            aux.coluna = _atual.coluna;
+            _atual.linha++;
     } 
-    return aux;
+    return _atual;
 }
 Pos Player::setDireita(Pos _atual, int dir){
-    Pos aux;
     switch(dir){
         case 0:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna+1;
+            _atual.coluna++;
             break;
         case 1:
-            aux.linha = _atual.linha+1;
-            aux.coluna = _atual.coluna;
+            _atual.linha++;
             break;
         case 2:
-            aux.linha = _atual.linha;
-            aux.coluna = _atual.coluna-1;
+            _atual.coluna--;
             break;
         default:
-            aux.linha = _atual.linha-1;
-            aux.coluna = _atual.coluna;
+            _atual.linha--;
     }  
-    return aux;
+    return _atual;
 }
 void Player::printSolucao(){
     cout<<"movimento "<<solucao.size()-movimento<<": "<<solucao[movimento-1]<<endl;
