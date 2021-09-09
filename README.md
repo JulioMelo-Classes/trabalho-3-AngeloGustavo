@@ -62,7 +62,7 @@ O jogo deveria desenhar a snake corretamente.
 Ok
 
 ### Transição de mapas
-O jogo deve ter transição de mapa uma vez que um mapa é terminado. Não implementado.
+O jogo deve ter transição de mapa uma vez que um mapa é terminado.
 
 **Avaliação**
 
