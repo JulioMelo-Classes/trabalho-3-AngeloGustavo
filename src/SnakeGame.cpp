@@ -225,6 +225,8 @@ void SnakeGame::render(){
     switch(state){
         case RUNNING:
             cout<<"------------------------------------------------------"<<endl;
+            cout<<"                       Nível "<<lvl<<"                "<<endl;
+            cout<<"------------------------------------------------------"<<endl;
             cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
             cout<<"------------------------------------------------------"<<endl;
             jogador.printSolucao();

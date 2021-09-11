@@ -34,7 +34,7 @@ void Level::resetLevel(){
         }
     
     srand (time(NULL));
-    Pos sort = espacos[rand() % espacos.size() + 1];
+    Pos sort = espacos[rand() % espacos.size()];
     comida.linha = sort.linha;
     comida.coluna = sort.coluna;
 }
