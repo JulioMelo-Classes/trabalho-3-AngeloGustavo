@@ -20,6 +20,8 @@ class Level{
         int getVidaRes();
         int getScore();
         void perdeuLife();
+        void resetLevel();
+        Pos espacoAleatorio();
     private:
         int linhas; //<! linhas do mapa do nivel
         int colunas; //<! colunas do mapa do nivel
@@ -32,6 +34,7 @@ class Level{
         Pos comida; //<! posicão atual da comida
         vector<string> mapa; //<! mapa do nivel
         vector<Pos> espacos; //<! espacos em branco do nivel
+        
 };
 
 #endif

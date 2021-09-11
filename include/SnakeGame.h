@@ -28,7 +28,7 @@ class SnakeGame{
         //<! atributos adicione outros se quiser
         std::vector<std::string> maze; //<! vector contendo o labirinto atual, pode ser interpretado como uma matriz
         int frameCount; //<! contador de frames, usado apenas como exemplo
-        std::string choice; //<! usado na função process_actions para guardar a escolha do usuário
+        int choice; //<! usado na função process_actions para guardar a escolha do usuário
         GameStates state; //<! guarda o estado do jogo
         OverCauses overstates;  //<! guarda o estado pós fim do jogo 
 
@@ -40,6 +40,7 @@ class SnakeGame{
         string arquivo;//<! string do nome do arquivo de mapa e dados
         int movimento;//<! movimento a ser executado por move()
         queue<Pos> rabo;
+        bool temSolucao;
 
     public:
         /**
@@ -51,9 +52,6 @@ class SnakeGame{
         * @brief chamado no main, este loop executa o jogo indefinidamente até que o usuário escolha terminar!
         */
         void loop();
-
-        void print_placar();
-
     private:
         /**
         * @brief realiza a inicialização geral do jogo, fique à vontade para adicionar parâmetros se achar que deve
@@ -79,6 +77,8 @@ class SnakeGame{
         * @brief é chamada quando o jogo termina a fim de destruir/resetar elementos do estado do jogo
         **/
         void game_over();
+
+        void menu();
 };
 
 #endif //SnakeGame_h

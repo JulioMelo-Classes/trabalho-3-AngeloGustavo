@@ -9,8 +9,12 @@ using namespace std;
 Level::Level(int lin, int col, int com, vector<string> map){
     linhas = lin;
     colunas = col;
-    comidaTot = comidaRes = com;
+    comidaTot = com;
     mapa = map;
+    resetLevel();    
+}
+void Level::resetLevel(){
+    comidaRes = comidaTot;
     score = 0;
     vidaRes = vidaTot = 5;
 
@@ -33,14 +37,6 @@ Level::Level(int lin, int col, int com, vector<string> map){
     Pos sort = espacos[rand() % espacos.size() + 1];
     comida.linha = sort.linha;
     comida.coluna = sort.coluna;
-
-    
-    /*for(int i=0; i<comidaRes; i++){
-       posComidas.push_back( espacos[rand() % espacos.size() + 1] );
-    }
-    comida.linha = posComidas[comidaRes-1].linha;
-    comida.coluna = posComidas[comidaRes-1].coluna;*/
-    
 }
 int Level::getComidaTotal(){
     return comidaTot;
@@ -74,17 +70,32 @@ void Level::perdeuLife(){
     comida.coluna = sort.coluna;
 }
 void Level::nextFood(int solucaoTam){
+    srand (time(NULL));
+    
+    Pos aux = comida;
+    while (comida.linha==aux.linha && comida.coluna==aux.coluna)//adicionar rabo tbm
+        comida = espacos[rand() % espacos.size()];
+    
+    if(comidaRes<=1)
+        comida.linha = -1;
     comidaRes--;
     
-    srand (time(NULL));
-    Pos sort = espacos[rand() % espacos.size() + 1];
-    comida.linha = sort.linha;
-    comida.coluna = sort.coluna;
-    if(comidaRes<1)
-        comida.linha = -1;
-
-    score += espacos.size() - solucaoTam;
+    //if(comidaRes != comidaTot)
+        score += espacos.size() - solucaoTam;
 }
 vector<string> Level::getMapa(){
     return mapa;
+}
+Pos Level::espacoAleatorio(){
+    srand (time(NULL));
+    Pos aux = espacos[rand() % espacos.size()];
+    if(mapa[aux.linha-1][aux.coluna]==' ')
+        aux.linha--;
+    else if(mapa[aux.linha+1][aux.coluna]==' ')
+        aux.linha++;
+    else if(mapa[aux.linha][aux.coluna-1]==' ')
+        aux.coluna--;
+    else 
+        aux.coluna++;
+    return aux;
 }

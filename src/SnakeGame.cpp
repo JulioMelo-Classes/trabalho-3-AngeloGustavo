@@ -19,7 +19,6 @@ SnakeGame::SnakeGame(string arg1, bool arg2){
     cabecas = {'v','<','^','>'};
     vidas = {"","♥    ","♥♥   ","♥♥♥  ","♥♥♥♥ ", "♥♥♥♥♥"};
     lvl = 0;
-    choice = "";
     frameCount = 0;
     initialize_game();
 }
@@ -49,15 +48,8 @@ void SnakeGame::initialize_game(){
             niveis.push_back(levelaux);
         }
     }
-    
-    maze = niveis[lvl].getMapa();
-    cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
-    maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
-        
-    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
-    jogador.movimento = jogador.getSolucaoTam();
 
-    state = RUNNING;
+    state = WAITING_USER;
 }
 
 void SnakeGame::process_actions(){
@@ -66,48 +58,64 @@ void SnakeGame::process_actions(){
     //no caso deste trabalho temos 2 tiPos de entrada, uma que vem da classe Player, como resultado do processamento da IA
     //outra vem do próprio usuário na forma de uma entrada do teclado.
     switch(state){
-        case WAITING_USER: //o jogo bloqueia aqui esperando o usuário digitar a escolha dele
+        case WAITING_USER: //o jogo bloqueia aqui esperando o usuário digitar a escolha 
+            choice = 2;
             cin>>std::ws>>choice;
             break;
         case RUNNING:
-            //movimento = jogador.next_move(cobra.getLinha(), cobra.getColuna(), cobra.getDirecao(), niveis[lvl].getMapa());
-            movimento = jogador.next_move(); //Checkpoint 2
+            if(temSolucao)
+                movimento = jogador.next_move(); 
+            else    
+                movimento = 0;
             break;
         default:
             //nada pra fazer aqui
             break;
     }
 }
-void SnakeGame::print_placar(){
-    cout<<"------------------------------------------------------"<<endl;
-    cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
-    cout<<"------------------------------------------------------"<<endl;
-}
 void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
         case WAITING_USER:
          //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
-            if(choice == "n"){
-                state = GAME_OVER;
-                game_over();
-            }
-            else{    
+            if((choice >= 0 && choice <= 1 && lvl<niveis.size())||
+                (choice >= 3 && choice <= 4 && lvl>0)){    
                 //começo do level
                 maze.clear();
                 cobra.zeraTamanho();
                 while(!rabo.empty())
                     rabo.pop();
-                lvl++;
+                    
+                switch(choice){
+                    case 0:
+                        cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+                        break;
+                    case 1:
+                        cobra.setPos(niveis[lvl].espacoAleatorio().linha, niveis[lvl].espacoAleatorio().coluna);
+                        break;
+                    case 3:
+                        lvl--;
+                        cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+                        break;
+                    case 4:
+                        lvl=0;
+                        cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
+                        break;
+                }
+
+                niveis[lvl].resetLevel();
                 maze = niveis[lvl].getMapa();
-                cobra.setPos(niveis[lvl].getInicio().linha, niveis[lvl].getInicio().coluna);
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
                 
                 jogador.clearSolucao();
-                jogador.find_solution(cobra.getPos(),cobra.getDirecao(),maze);
+                temSolucao = jogador.find_solution(cobra.getPos(),cobra.getDirecao(),maze);
                 jogador.movimento = jogador.getSolucaoTam();
                                 
                 state = RUNNING;
+            }
+            else{
+                state = GAME_OVER;
+                game_over();
             }
             break;
         case RUNNING:
@@ -129,22 +137,19 @@ void SnakeGame::update(){
             
             cobra.Move(movimento);
 
-            if(maze[cobra.getLinha()][cobra.getColuna()]=='F'){    
+            if(cobra.getLinha() == niveis[lvl].getPosComida().linha && cobra.getColuna() == niveis[lvl].getPosComida().coluna){    
                 maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = ' ';
                 cobra.addTamanho();//Adiciona unidade a tamanho da cobra
                 niveis[lvl].nextFood(jogador.getSolucaoTam());//Próxima comida e adição de pontos por sucesso
                 if((niveis[lvl].getPosComida()).linha == -1){
+                    lvl++;
                     state = WAITING_USER;
-                    if(lvl >= niveis.size()-1){
-                        state = GAME_OVER;
-                        overstates = WIN;
-                    }
                 }
                 else{
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
 
                     jogador.clearSolucao();
-                    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
+                    temSolucao = jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
                     jogador.movimento = jogador.getSolucaoTam();
                 }
             }
@@ -157,7 +162,7 @@ void SnakeGame::update(){
                     maze[ (niveis[lvl].getPosComida()).linha ][ (niveis[lvl].getPosComida()).coluna ] = 'F';
 
                     jogador.clearSolucao();
-                    jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
+                    temSolucao = jogador.find_solution(cobra.getPos(), cobra.getDirecao(), maze);
                     jogador.movimento = jogador.getSolucaoTam();
 
                     cobra.zeraTamanho();
@@ -165,7 +170,7 @@ void SnakeGame::update(){
                         rabo.pop();                   
                 }
                 else{
-                    state = GAME_OVER;
+                    state = WAITING_USER;
                     overstates = HIT;
                 }
             }
@@ -198,19 +203,30 @@ void clearScreen(){
 #endif
 }
 
-void SnakeGame::render(){
+void SnakeGame::menu(){
     clearScreen();
-    switch(overstates){
-        case WIN:
-            cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
-            break;
-        case HIT:
-            cout<<"Parece que sua cobra bateu a cabeça! :°"<<endl;
+    switch(state){
+        case WAITING_USER:
+            cout<<"=================MENU================="<<endl;
+            if(lvl < niveis.size()){
+                cout<<"0 - Jogar fase "<<lvl+1<<"."<<endl;
+                cout<<"1 - Jogar fase "<<lvl+1<<" no modo Random Start."<<endl;
+            }
+            if(lvl > 0){   
+                cout<<"2 - Finalizar jogo."<<endl;
+                cout<<"3 - Jogar fase novamente."<<endl;
+                cout<<"4 - Resetar jogo."<<endl;
+            }
             break;
     }
+}
+void SnakeGame::render(){
+    clearScreen();
     switch(state){
         case RUNNING:
-            print_placar();
+            cout<<"------------------------------------------------------"<<endl;
+            cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
+            cout<<"------------------------------------------------------"<<endl;
             jogador.printSolucao();
             //desenha todas as linhas do labirinto
             for(int i=0; i<maze.size(); i++){
@@ -223,15 +239,17 @@ void SnakeGame::render(){
                 cout<<endl;
             }
             break;
-        case WAITING_USER:
-            cout<<"Você sobreviveu a este labirinto!!"<<endl;
-            cout<<"Pronto para a fase "<<lvl+2<<"? (s/n)"<<endl;
-            break;
         case GAME_OVER:
-            cout<<"O jogo terminou!"<<endl;
+            clearScreen();
+            switch(overstates){
+                case WIN:
+                    cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
+                    break;
+            }
+            cout<<"=================FIM================="<<endl;
             break;
     }
-    frameCount++;
+    
 }
 
 void SnakeGame::game_over(){
@@ -239,6 +257,7 @@ void SnakeGame::game_over(){
 
 void SnakeGame::loop(){
     while(state != GAME_OVER){
+        menu();
         process_actions();
         update();
         render();
