@@ -207,7 +207,7 @@ void SnakeGame::menu(){
     clearScreen();
     switch(state){
         case WAITING_USER:
-            cout<<"=================MENU================="<<endl;
+            cout<<"================ MENU ================"<<endl;
             if(lvl < niveis.size()){
                 cout<<"0 - Jogar fase "<<lvl+1<<"."<<endl;
                 cout<<"1 - Jogar fase "<<lvl+1<<" no modo Random Start."<<endl;
@@ -248,7 +248,7 @@ void SnakeGame::render(){
                     cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
                     break;
             }
-            cout<<"=================FIM================="<<endl;
+            cout<<"=============== GAME OVER ==============="<<endl;
             break;
     }
     
