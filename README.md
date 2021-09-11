@@ -24,7 +24,7 @@ Após o executavel ```./snaze``` o primeiro argumento deve ser o endereço de um
 ### Menu
 Antes e depois da execução dos níveis será impresso um menu com as oções de ```0``` a ```4```, tal que, *x* é o próximo nível a ser executado.
 ```
-=================MENU=================
+================ MENU ================
 0 - Jogar fase {x}.
 1 - Jogar fase {x} no modo Random Start.
 2 - Finalizar jogo.
@@ -33,7 +33,7 @@ Antes e depois da execução dos níveis será impresso um menu com as oções d
 ```
 OBS: As opções ```2``` a ```4``` não aparecerão anteriormente a execução do nível 1 e as opções ```0``` e ```1``` não aparecerão posteriormente ao ultimo nível.
 ### Nível
-Durante a execução dos níveis será renderizado o mapa e a posição da cobra dependendo da sua atual posição.
+Durante a execução dos níveis será renderizado uma tabela com informações do nível, o mapa, a posição da cobra e a posição da comida.
 ```
 ------------------------------------------------------
                        Nível 1                
@@ -47,8 +47,9 @@ Vidas: ♥♥♥♥♥ | Pontuação: 50 | Maçãs comidas: 1 de 2
 ###############################
 ```
 ### Fim
+Ao fim da execução do Snaze será impresso uma tela de *Game Over*.
 ```
-=================FIM=================
+============== GAME OVER ==============
 ```
 ## Autor
 
