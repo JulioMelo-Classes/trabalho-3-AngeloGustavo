@@ -5,23 +5,20 @@
 using namespace std;
 
 Snake::Snake(){
-    direcao = 0;
+    local.direcao = 0; 
     tamanho = 0;
 }
 Pos Snake::getPos(){
-    Pos aux;
-    aux.linha = linha;
-    aux.coluna = coluna;
-    return aux;
+    return local;
 }
 int Snake::getLinha(){
-    return linha;
+    return local.linha;
 }
 int Snake::getColuna(){
-    return coluna;
+    return local.coluna;
 }
 int Snake::getDirecao(){
-    return direcao;
+    return local.direcao;
 }
 int Snake::getTamanho(){
     return tamanho;
@@ -29,51 +26,37 @@ int Snake::getTamanho(){
 void Snake::zeraTamanho(){
     tamanho = 0;
 }
-void Snake::setTamanho(int t){
-    tamanho = t;
-}
 void Snake::addTamanho(){
     tamanho ++;
 }
 void Snake::setPos(int l, int c){
-    linha = l;
-    coluna = c;
-}
-void Snake::turnLeft(){
-    direcao--;
-    if(direcao<0)
-        direcao = 3;
-}
-void Snake::turnRight(){
-    direcao++;
-    if(direcao>3)
-        direcao = 0;
+    local.linha = l;
+    local.coluna = c;
 }
 void Snake::Move(int movimento){
+    int aux;
     if(movimento == 1)
-        turnLeft();
-        //direcao = (direcao - 1)%4;
-
+        local.direcao = (((local.direcao - 1) %4) +4) %4;
+    
     else if(movimento == 2)
-        turnRight();
-        //direcao = (direcao + 1)%4;
-
-    switch(direcao){
+        local.direcao = (local.direcao + 1) %4;
+    
+    switch(local.direcao){
         case 0:
-            linha--;
+            local.linha--;
             break;
         case 1:
-            coluna++;
+            local.coluna++;
             break;
         case 2:
-            linha++;
+            local.linha++;
             break;
         default:
-            coluna--;
+            local.coluna--;
     }
 }
 void Snake::voltaInicio(Pos inicio){
-    linha = inicio.linha;
-    coluna = inicio.coluna;
-    direcao = 0;
+    local.linha = inicio.linha;
+    local.coluna = inicio.coluna;
+    local.direcao = 0;
 }

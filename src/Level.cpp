@@ -78,10 +78,9 @@ void Level::nextFood(int solucaoTam){
     
     if(comidaRes<=1)
         comida.linha = -1;
-    comidaRes--;
-    
-    //if(comidaRes != comidaTot)
+    if(comidaRes < comidaTot)
         score += espacos.size() - solucaoTam;
+    comidaRes--;
 }
 vector<string> Level::getMapa(){
     return mapa;
@@ -90,12 +89,12 @@ Pos Level::espacoAleatorio(){
     srand (time(NULL));
     Pos aux = espacos[rand() % espacos.size()];
     if(mapa[aux.linha-1][aux.coluna]==' ')
-        aux.linha--;
+        aux.direcao=0;
+    else if(mapa[aux.linha][aux.coluna+1]==' ')
+        aux.direcao=1;
     else if(mapa[aux.linha+1][aux.coluna]==' ')
-        aux.linha++;
-    else if(mapa[aux.linha][aux.coluna-1]==' ')
-        aux.coluna--;
+        aux.direcao=2;
     else 
-        aux.coluna++;
+        aux.direcao=3;
     return aux;
 }
