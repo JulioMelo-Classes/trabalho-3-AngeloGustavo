@@ -77,7 +77,7 @@ void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
         case WAITING_USER:
-         //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
+         //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita   
             if((choice >= 0 && choice <= 1 && lvl<niveis.size())||
                 (choice >= 3 && choice <= 4 && lvl>0)){    
                 //começo do level
@@ -171,10 +171,6 @@ void SnakeGame::update(){
                    maze[(rabo.front()).linha][(rabo.front()).coluna] = 'F';//tirar espacos de rabo]]]]]]
                 rabo.pop();
             }  
-
-            break;
-        default:
-            //nada pra fazer aqui
             break;
     }
 }
@@ -205,14 +201,22 @@ void SnakeGame::menu(){
     clearScreen();
     switch(state){
         case WAITING_USER:
-            cout<<"================ MENU ================"<<endl;
+            if(lvl==0){
+                cout<<"------------------------------------------------------"<<endl;
+                cout<<"              ---> Bem vindo ao Snaze <---"<<endl;
+                cout<<"------------------------------------------------------"<<endl;
+                cout<<"                  "<<niveis.size()<<" níveis carregados"<<endl;
+                cout<<"                       Boa sorte!!"<<endl;
+                cout<<"------------------------------------------------------"<<endl<<endl;
+            }
+            cout<<"======================== MENU ========================"<<endl;
             if(lvl < niveis.size()){
-                cout<<"0 - Jogar fase "<<lvl+1<<"."<<endl;
-                cout<<"1 - Jogar fase "<<lvl+1<<" no modo Random Start."<<endl;
+                cout<<"0 - Jogar nível "<<lvl+1<<"."<<endl;
+                cout<<"1 - Jogar nível "<<lvl+1<<" no modo Random Start."<<endl;
             }
             if(lvl > 0){   
                 cout<<"2 - Finalizar jogo."<<endl;
-                cout<<"3 - Jogar fase novamente."<<endl;
+                cout<<"3 - Jogar nível novamente."<<endl;
                 cout<<"4 - Resetar jogo."<<endl;
             }
             break;
@@ -224,7 +228,7 @@ void SnakeGame::render(){
         case RUNNING:
             //desenho do menu
             cout<<"------------------------------------------------------"<<endl;
-            cout<<"                       Nível "<<lvl+1<<"                "<<endl;
+            cout<<"                       Nível "<<lvl+1<<""<<endl;
             cout<<"------------------------------------------------------"<<endl;
             cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
             cout<<"------------------------------------------------------"<<endl;
@@ -241,20 +245,21 @@ void SnakeGame::render(){
                 cout<<endl;
             }
             break;
-        case GAME_OVER:
-            clearScreen();
-            switch(overstates){
-                case WIN:
-                    cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
-                    break;
-            }
-            cout<<"============== GAME OVER =============="<<endl;
-            break;
     }
     
 }
 
-void SnakeGame::game_over(){
+void SnakeGame::game_over(){            
+    clearScreen();
+    switch(overstates){
+        case WIN:
+            cout<<"Você passou de todas as fases. Parabéns!!"<<endl;
+            break;
+        case HIT:
+            cout<<"Parece que sua cobra bateu a cabeça. XO"<<endl;
+            break;
+    }
+    cout<<"===================== GAME OVER ======================"<<endl;
 }
 
 void SnakeGame::loop(){

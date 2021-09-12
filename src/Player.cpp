@@ -59,6 +59,7 @@ Pos Player::setDireita(Pos atual){
     return atual;
 }
 void Player::printSolucao(){
+    ///////////////////////////////////////////////////////////////////////////////////
     //cout<<"movimento "<<solucao.size()-movimento<<": "<<solucao[movimento-1]<<endl;
     for(int i=solucao.size()-1; i>=0; i--){
         if(i==movimento-1)
@@ -109,9 +110,9 @@ int Player::getSolucaoTam(){
     return solucao.size();
 }
 
-bool Player::naoVisitado(Pos _local){
+bool Player::naoVisitado(Pos local){
     for(auto itr=visitado.begin(); itr!=visitado.end(); itr++)
-        if(itr->linha == _local.linha && itr->coluna == _local.coluna && itr->direcao == _local.direcao )
+        if(itr->linha == local.linha && itr->coluna == local.coluna && itr->direcao == local.direcao )
             return false;
     return true;
 }

@@ -78,8 +78,8 @@ void Level::nextFood(int solucaoTam){
     
     if(comidaRes<=1)
         comida.linha = -1;
-    if(comidaRes < comidaTot)
-        score += espacos.size() - solucaoTam;
+    score += espacos.size() - solucaoTam;
+    
     comidaRes--;
 }
 vector<string> Level::getMapa(){

@@ -25,8 +25,6 @@ class Player{
     private:
         vector<int> solucao;
         vector<Pos> visitado;
-        Pos pos;
-        int direcao;
 };
 
 #endif
