@@ -27,7 +27,7 @@ Antes e depois da execução dos níveis será impresso um menu com as oções d
 ------------------------------------------------------
               ---> Bem vindo ao Snaze <---
 ------------------------------------------------------
-                  3 níveis carregados
+                 {n} níveis carregados
                        Boa sorte!!
 ------------------------------------------------------
 
@@ -38,7 +38,6 @@ Antes e depois da execução dos níveis será impresso um menu com as oções d
 3 - Jogar fase novamente.
 4 - Resetar jogo.
 ```
-OBS: As opções ```2``` a ```4``` não aparecerão anteriormente a execução do nível 1 e as opções ```0``` e ```1``` não aparecerão posteriormente ao ultimo nível.
 ### Nível
 Durante a execução dos níveis será renderizado uma tabela com informações do nível, o mapa, a posição da cobra e a posição da comida.
 ```
