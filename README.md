@@ -24,7 +24,14 @@ Após o executavel ```./snaze``` o primeiro argumento deve ser o endereço de um
 ### Menu
 Antes e depois da execução dos níveis será impresso um menu com as oções de ```0``` a ```4```, tal que, *x* é o próximo nível a ser executado.
 ```
-================ MENU ================
+------------------------------------------------------
+              ---> Bem vindo ao Snaze <---
+------------------------------------------------------
+                  3 níveis carregados
+                       Boa sorte!!
+------------------------------------------------------
+
+======================== MENU ========================
 0 - Jogar fase {x}.
 1 - Jogar fase {x} no modo Random Start.
 2 - Finalizar jogo.
@@ -49,7 +56,7 @@ Vidas: ♥♥♥♥♥ | Pontuação: 50 | Maçãs comidas: 1 de 2
 ### Fim
 Ao fim da execução do Snaze será impresso uma tela de *Game Over*.
 ```
-============== GAME OVER ==============
+===================== GAME OVER ======================
 ```
 ## Autor
 
