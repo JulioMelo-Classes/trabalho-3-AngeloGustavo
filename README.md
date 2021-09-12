@@ -57,6 +57,8 @@ Ao fim da execução do Snaze será impresso uma tela de *Game Over*.
 ```
 ===================== GAME OVER ======================
 ```
+## Aplicações e limitações
+zzzzzzz
 ## Autor
 
 Angelo Gustavo Souza Marinho Morais de Sales -
