@@ -39,8 +39,8 @@ class SnakeGame{
         bool temRabo;//<! diz se o modo é com ou sem rabo
         string arquivo;//<! string do nome do arquivo de mapa e dados
         int movimento;//<! movimento a ser executado por move()
-        queue<Pos> rabo;
-        bool temSolucao;
+        queue<Pos> rabo;//<! lista de posições de unidades do rabo
+        bool temSolucao;//<! bool da existência da solução
 
     public:
         /**
@@ -78,6 +78,10 @@ class SnakeGame{
         **/
         void game_over();
 
+        /**
+         * @brief Printa menu
+         * 
+         */
         void menu();
 };
 
