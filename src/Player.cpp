@@ -58,18 +58,6 @@ Pos Player::setDireita(Pos atual){
     atual.direcao = (atual.direcao+1)%4;
     return atual;
 }
-void Player::printSolucao(){
-    ///////////////////////////////////////////////////////////////////////////////////
-    //cout<<"movimento "<<solucao.size()-movimento<<": "<<solucao[movimento-1]<<endl;
-    for(int i=solucao.size()-1; i>=0; i--){
-        if(i==movimento-1)
-            cout<<"["<<solucao[i]<<"]";
-        else
-            cout<<solucao[i];
-    }
-    cout<<endl;
-    cout<<visitado.size()<<endl;
-}
 void Player::clearSolucao(){
     solucao.clear();
     visitado.clear();
@@ -109,7 +97,9 @@ int Player::next_move(){
 int Player::getSolucaoTam(){
     return solucao.size();
 }
-
+void Player::setMovimento(){
+    movimento = getSolucaoTam();
+}
 bool Player::naoVisitado(Pos local){
     for(auto itr=visitado.begin(); itr!=visitado.end(); itr++)
         if(itr->linha == local.linha && itr->coluna == local.coluna && itr->direcao == local.direcao )

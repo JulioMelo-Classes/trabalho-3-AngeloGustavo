@@ -18,7 +18,7 @@ class Level{
          * @param com 
          * @param map 
          */
-        Level(int lin, int col, int com, vector<string> map);
+        Level(int lin, int col, int com, vector<string> *map);
     
         /**
          * @brief Retorna posição de inicio do nivel

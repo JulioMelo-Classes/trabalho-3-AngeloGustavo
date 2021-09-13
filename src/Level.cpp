@@ -6,17 +6,17 @@
 
 using namespace std;
 
-Level::Level(int lin, int col, int com, vector<string> map){
+Level::Level(int lin, int col, int com, vector<string> *map){
     linhas = lin;
     colunas = col;
     comidaTot = com;
-    mapa = map;
+    mapa = *map;
     resetLevel();    
 }
 void Level::resetLevel(){
     comidaRes = comidaTot;
     score = 0;
-    vidaRes = vidaTot = 5;
+    vidaRes = 5;
 
     for(int i=0; i<mapa.size(); i++)
         for(int j=0; j<mapa[i].size(); j++){
@@ -47,9 +47,6 @@ int Level::getJaComidas(){
 Pos Level::getPosComida(){
     return comida;
 }
-int Level::getVidaTot(){
-    return vidaTot;
-}
 int Level::getVidaRes(){
     return vidaRes;
 }
@@ -73,7 +70,7 @@ void Level::nextFood(int solucaoTam){
     srand (time(NULL));
     
     Pos aux = comida;
-    while (comida.linha==aux.linha && comida.coluna==aux.coluna)//adicionar rabo tbm
+    while (comida.linha==aux.linha && comida.coluna==aux.coluna)
         comida = espacos[rand() % espacos.size()];
     
     if(comidaRes<=1)

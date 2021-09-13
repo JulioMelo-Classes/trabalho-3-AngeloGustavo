@@ -24,12 +24,12 @@ SnakeGame::SnakeGame(string arg1, bool arg2){
 }
 
 void SnakeGame::initialize_game(){
-    //carrega o nivel ou os níveis
+    //carrega níveis
     ifstream levelFile(arquivo); 
     string line;
     stringstream ss;
     if(levelFile.is_open()){
-        while(getline(levelFile, line)){ //pega cada linha do arquivo
+        while(getline(levelFile, line)){ 
             vector<string> mapaaux;
             int linhas, colunas, comidas;
             
@@ -44,7 +44,7 @@ void SnakeGame::initialize_game(){
                 mapaaux.push_back(line);
             }
             
-            Level levelaux(linhas, colunas, comidas, mapaaux);
+            Level levelaux(linhas, colunas, comidas, &mapaaux);
             niveis.push_back(levelaux);
         }
     }
@@ -67,9 +67,6 @@ void SnakeGame::process_actions(){
                 movimento = jogador.next_move(); 
             else    
                 movimento = 0;
-            break;
-        default:
-            //nada pra fazer aqui
             break;
     }
 }
@@ -109,7 +106,7 @@ void SnakeGame::update(){
                 
                 jogador.clearSolucao();
                 temSolucao = jogador.find_solution(cobra.getPos(), maze);
-                jogador.movimento = jogador.getSolucaoTam();
+                jogador.setMovimento();
                                 
                 state = RUNNING;
             }
@@ -134,7 +131,7 @@ void SnakeGame::update(){
 
                     jogador.clearSolucao();
                     temSolucao = jogador.find_solution(cobra.getPos(), maze);
-                    jogador.movimento = jogador.getSolucaoTam();
+                    jogador.setMovimento();
                 }
             }
             else if(maze[cobra.getLinha()][cobra.getColuna()]=='#' || maze[cobra.getLinha()][cobra.getColuna()]=='o'){ 
@@ -147,7 +144,7 @@ void SnakeGame::update(){
 
                     jogador.clearSolucao();
                     temSolucao = jogador.find_solution(cobra.getPos(), maze);
-                    jogador.movimento = jogador.getSolucaoTam();
+                    jogador.setMovimento();
 
                     cobra.zeraTamanho();
                     while(!rabo.empty())
@@ -228,11 +225,10 @@ void SnakeGame::render(){
         case RUNNING:
             //desenho do menu
             cout<<"------------------------------------------------------"<<endl;
-            cout<<"                       Nível "<<lvl+1<<""<<endl;
+            cout<<"                       Nível "<<lvl+1<<endl;
             cout<<"------------------------------------------------------"<<endl;
             cout<<"Vidas: "<<vidas[niveis[lvl].getVidaRes()]<<" | Pontuação: "<<niveis[lvl].getScore()<<" | Maçãs comidas: "<<niveis[lvl].getJaComidas()<<" de "<<niveis[lvl].getComidaTotal()<<endl;
             cout<<"------------------------------------------------------"<<endl;
-            jogador.printSolucao();   
 
             //desenho do labirinto
             for(int i=0; i<maze.size(); i++){
