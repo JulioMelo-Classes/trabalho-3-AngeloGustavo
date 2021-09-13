@@ -73,7 +73,7 @@ bool Player::find_solution(Pos atual, vector<string> mapa){
     if(mapa[atual.linha][atual.coluna]=='F'){
         movimento = solucao.size();
         return true;
-    }//ADICIONAR mapa[frente.linha][frente.coluna] != 'o'
+    }
     else if(mapa[frente.linha][frente.coluna] != '#' && naoVisitado(frente) && find_solution(frente, mapa)){
         solucao.push_back(0);
         return true;
