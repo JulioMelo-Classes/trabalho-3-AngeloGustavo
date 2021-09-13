@@ -1,7 +1,7 @@
 # LP1 Projeto 3: Snaze
 
 ## O que é o Snaze
-Uma simulação do jogo clássico Snake arcade video game, porém com a cobra presa em um labirinto. A cada nível a cobra encontrará (ou não) um caminho solução através de um motor básico de inteligência artificial (IA) até a comida e terá cinco vidas para cada nível.
+Uma simulação do jogo clássico Snake arcade video game, porém com a cobra presa em um labirinto. A cobra encontrará (ou não) um caminho solução através de um motor básico de inteligência artificial (IA) até a comida e terá cinco vidas para cada nível.
 
 ## Organização
 Os arquivos ```.cpp``` estão na pasta  **<em>src</em>**, os ```.h``` na pasta **<em>include</em>**, os scripts em **<em>data</em>** e, após criado, os arquivos de compilação em **<em>build</em>**.
