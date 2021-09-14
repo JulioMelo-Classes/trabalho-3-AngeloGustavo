@@ -165,7 +165,7 @@ void SnakeGame::update(){
                 maze[(rabo.front()).linha][(rabo.front()).coluna] = ' ';
                 if(((rabo.front()).linha == (niveis[lvl].getPosComida().linha))&&
                    ((rabo.front()).coluna == (niveis[lvl].getPosComida().coluna)))
-                   maze[(rabo.front()).linha][(rabo.front()).coluna] = 'F';//tirar espacos de rabo]]]]]]
+                   maze[(rabo.front()).linha][(rabo.front()).coluna] = 'F';
                 rabo.pop();
             }  
             break;
